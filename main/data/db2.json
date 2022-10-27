@@ -1,0 +1,25 @@
+{
+  "info": {
+    "splice_event_id": "0x00000013",
+    "date": 20221020,
+    "time": 205010334
+  },
+  "output": {
+    "id": "PGM",
+    "on": true,
+    "layer": 2
+  },
+  "template": {
+    "documentType": "GAMES",
+    "documentCode": "FUTEBOL",
+    "id": "placar",
+    "src": "../../futebol/graphics/placar.html",
+    "command": 1
+  },
+  "data": [
+    {
+      "id": "NAME_1",
+      "value": "aaMaracana"
+    }
+  ]
+}

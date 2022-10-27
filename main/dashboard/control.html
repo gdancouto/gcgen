@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div>
+		<label>Splice host:</label>
+		<input id="spliceHost" type="text" value="localhost:4040"></input> <!-- config file. GET  API-->
+	</div>
+	<div>
+		<label>Data host:</label>
+		<input id="dbHost" type="text" value="localhost:5050"></input> <!-- config file. GET  API-->
+	</div>
+</body>
+
+<script>
+	const dataReplicant = nodecg.Replicant('data');
+
+	dataReplicant.on('change', (newValue, oldValue) => {
+		if (!newValue) {
+			return;
+		}
+		
+		// do something
+		console.log (newValue);
+	});
+</script>
+</html>

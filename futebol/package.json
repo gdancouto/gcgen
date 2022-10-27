@@ -1,0 +1,36 @@
+{
+  "name": "futebol",
+  "version": "1.0.0",
+  "description": "",
+  "main": "futebol.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+
+  "nodecg": {
+    "compatibleRange": ">=0.9",
+    "dashboardPanels": [
+      {
+        "name": "Futebol",
+        "title": "Futebol",
+        "width": 3,
+        "file": "futebol.html",
+        "headerColor": "#9f9bbd"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "startlist.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "placar.html",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

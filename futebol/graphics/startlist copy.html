@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Starlist</title>
+	<meta http-equiv="content-type" content="text/html">
+	<meta charset="utf-8">
+
+	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+	<link rel="stylesheet" href="public/lower.css">
+
+</head>
+<body>
+	<main>
+		<div id="animation-4" class="animation">
+
+			<div class="veil">
+				<div class="bg"></div>
+				<div id="NAME_1" class="text">सबहिं के विचार</div>
+				<div id="TIME_1" class="text left">10</div>
+			</div>
+			
+			<div class="veil">
+				<div class="bg"></div>
+				<div id="NAME_2" class="text">Joyeys NOEL</div>
+				<div id="TIME_2" class="text left">20</div>
+			</div>
+
+			<div class="veil">
+				<div class="bg"></div>
+				<div id="NAME_3" class="text">国際連合と協力して</div>
+				<div id="TIME_3" class="text left">30</div>
+			</div>
+
+			<div class="veil">
+				<div class="bg"></div>
+				<div id="NAME_4" class="text">καιτα δικαιώματα</div>
+				<div id="TIME_4" class="text left">40</div>
+			</div>
+
+			<div class="veil">
+				<div class="bg"></div>
+				<div id="NAME_5" class="text">Jorencis MIROLAREN</div>
+				<div id="TIME_5" class="text left">50</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+<script>
+
+	const dataReplicant = nodecg.Replicant("../../futebol/graphics/startlist.html", 'main');
+
+	dataReplicant.on('change', (newValue, oldValue) => {
+
+		newValue.data.forEach(function (element) {
+
+			Object.keys(element).forEach(function (atribute){
+				
+				if (atribute == 'id') {
+				}
+
+				else if (atribute == "value")
+					document.getElementById(element.id).innerHTML = element[atribute];
+
+				else
+					document.getElementById(element.id).setAttribute(atribute, element[atribute]);
+			});
+		});
+	});
+
+</script>
+</html>
