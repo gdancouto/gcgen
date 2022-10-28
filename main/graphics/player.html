@@ -106,13 +106,15 @@
 
 	});
 
+	// generalizar numero de layers
+
 	layer.on('change', (newValue, oldValue) => {
 
-		if (newValue[1] != document.getElementById("layer1").src)
-			document.getElementById("layer1").src = newValue[1];
+		if (newValue[1] != layer1.src)
+			layer1.src = newValue[1];
 
-		if (newValue[2] != document.getElementById("layer2").src)
-			document.getElementById("layer2").src = newValue[2];
+		if (newValue[2] != layer2.src)
+			layer2.src = newValue[2];
 	});
 
 </script>

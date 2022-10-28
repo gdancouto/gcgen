@@ -1,17 +1,14 @@
-const axios = require('axios');
-const { clear } = require('console');
+//const axios = require('axios');
+//const { clear } = require('console');
 var dgram = require("dgram"); //const
 const xml2js = require('xml2js');
 
 var socket = dgram.createSocket("udp4");
-let splice;
 
-//encapsular config file
-var id = "PGM";
-//var layers = ["",""];
-//var visibility = false;
 
-// encapsular
+
+
+// encapsular objeto 
 socket.on("error", function (err) {
 	console.log("server error:\n" + err.stack);
 	socket.close();
@@ -57,7 +54,6 @@ socket.send(data,2222,'localhost',function(error) {
 
 // encapsular. Web sovket? como fazer se for API? event emitter
 var socketDB = dgram.createSocket("udp4");
-let message;
 
 socketDB.on("error", function (err) {
 	console.log("server error:\n" + err.stack);
@@ -85,30 +81,58 @@ socketDB.on("message", function(msg, info) {
 
 socketDB.bind(5555,'localhost'); 
 
-// melhorar
+
+// encapsular
+
+function isNew (newMessage, oldMessage) {
+
+	if (Object.keys(oldMessage).length === 0) 
+		return true;
+		
+	else if (newMessage.info.eventId != oldMessage.info.eventId)
+		return true;
+		
+	else return false;
+}
+
+
+function isDestination (message, id) {
+	return message.output.id == id;
+}
+
+let state = {
+	id: "PGM",
+	visibility: true,
+	layers: [],
+	oldMessage: {},
+	newMessage:{}
+}
+
 module.exports = nodecg => {
 
+	let id = "PGM";
 	const visibility = nodecg.Replicant('visibility');
-	const layer= nodecg.Replicant('layer');
+	const layer = nodecg.Replicant('layer');
+	let oldMessage = {};
+	
 
 	socketDB.on("message", function(msg, info) {
 
 		try {
-			var message = JSON.parse(msg); //validar?
-
-			// checar se mensagem n repetida
-
-			// delay
+			let message = JSON.parse(msg); 
 			
-			if ((message.output.id == id))
-			{	
-				if (visibility.value != message.output.on)
-					visibility.value = message.output.on;
+			//validar schema
 
-				if (layer.value[message.output.layer] != message.template.src)
-					layer.value[message.output.layer] = message.template.src;
-				
-				const dataReplicant = nodecg.Replicant(message.template.src); //nao permanente?
+			if (isDestination(message, id) )//&& (isNew(message, oldMessage)) REATIVAR
+			{
+				oldMessage = message;
+
+				visibility.value = message.output.on;
+
+				layer.value[message.template.layer] = message.template.src;
+
+				const dataReplicant = nodecg.Replicant(message.template.src);
+
 				dataReplicant.value = message;
 			}
 			

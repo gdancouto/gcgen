@@ -1,21 +1,23 @@
 {
   "info": {
-    "splice_event_id": "0x00000012",
+    "eventId": "0x00000012",
     "date": 20221020,
     "time": 205010333
   },
+
   "output": {
     "id": "PGM",
-    "on": true,
-    "layer": 1
+    "on": true
   },
+
   "template": {
     "documentType": "GAMES",
     "documentCode": "FUTEBOL",
     "id": "start",
     "src": "../../futebol/graphics/startlist.html",
-    "command": 1,
-    "keepAlive": false
+    "injectCount": 1,
+    "layer": 1,
+    "command": 2
   },
 
   "data": [
