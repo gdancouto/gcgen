@@ -1,10 +1,8 @@
-//const axios = require('axios');
-//const { clear } = require('console');
 var dgram = require("dgram"); //const
 const xml2js = require('xml2js');
 
 var socket = dgram.createSocket("udp4");
-
+const { MongoClient } = require("mongodb");
 
 
 
@@ -52,7 +50,106 @@ socket.send(data,2222,'localhost',function(error) {
   });
 */
 
-// encapsular. Web sovket? como fazer se for API? event emitter
+const doc = {
+	id: "SWM100MBA",
+	discipline: ["Swimming", "競泳"],
+	event: ["Men's 100m Breaststroke","男子100m平泳ぎ"],
+	content: "Test"
+  }
+
+function myDB (_uri) {
+
+    this.uri = _uri;
+	this.client = new MongoClient(this.uri);
+
+	this.insert = async function (db, collection, doc)
+	{
+		try{
+
+			const database = this.client.db(db);
+			const table = database.collection(collection);
+
+			const result = await table.insertOne(doc);
+
+			console.log(`Inserted at ${db}/${collection} with the _id: ${result.insertedId}`);
+			return result.insertedId;
+		}
+		
+		catch (error) {
+			console.log.error(error);
+		}
+		
+		finally {
+			await this.client.close();
+		}
+	}
+}
+
+
+translationDB = new myDB("mongodb+srv://host:PYiRipXX5tC9AqC7@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority");
+
+translationDB.insert("translation", "athletes", doc);
+
+
+/*
+
+const uri = "mongodb+srv://host:PYiRipXX5tC9AqC7@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri);
+
+
+
+
+async function insert() {
+
+	try {
+  
+		const database = client.db("translation");
+		const codes= database.collection("codes");
+  
+
+  
+	  const result = await codes.insertOne(doc);
+  
+	  console.log(`A document was inserted with the _id: ${result.insertedId}`);
+	}
+	
+	catch (error) {
+		console.log.error(error);
+	}
+  
+	 finally {
+	  await client.close();
+	}
+}
+
+  insert().catch(console.dir);
+
+
+
+async function run() {
+  try {
+
+	const database = client.db("translation");
+	const codes= database.collection("codes");
+
+    const query = { id: "SWM100MBA" };
+    const obj = await codes.findOne(query);
+    console.log(obj);
+  }
+	catch (error) {
+		console.log.error(error);
+	}
+
+   finally {
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+*/
+
+
 var socketDB = dgram.createSocket("udp4");
 
 socketDB.on("error", function (err) {

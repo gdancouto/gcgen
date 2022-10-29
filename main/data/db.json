@@ -13,7 +13,6 @@
   "template": {
     "documentType": "GAMES",
     "documentCode": "FUTEBOL",
-    "id": "start",
     "src": "../../futebol/graphics/startlist.html",
     "injectCount": 1,
     "layer": 1,
