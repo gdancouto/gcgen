@@ -1,25 +1,64 @@
 {
   "info": {
-    "splice_event_id": "0x00000013",
+    "eventId": "0x00000012",
     "date": 20221020,
-    "time": 205010334
+    "time": 205010333
   },
+
   "output": {
     "id": "PGM",
-    "on": true,
-    "layer": 2
+    "on": false
   },
+
   "template": {
     "documentType": "GAMES",
     "documentCode": "FUTEBOL",
-    "id": "placar",
-    "src": "../../futebol/graphics/placar.html",
+    "src": "../../futebol/graphics/startlist.html",
+    "injectCount": 1,
+    "layer": 1,
     "command": 1
   },
+
   "data": [
     {
       "id": "NAME_1",
-      "value": "aaMaracana"
+      "value": "सबहिं के विचार"
+    },
+    {
+      "id": "NAME_2",
+      "value": "Joaquina MARIA"
+    },
+    {
+      "id": "NAME_3",
+      "value": "国際連合と協力して"
+    },
+    {
+      "id": "NAME_4",
+      "value": "καιτα δικαιώματα"
+    },
+    {
+      "id": "NAME_5",
+      "value": "タシタ・オリベイラ クルス"
+    },
+    {
+      "id": "TIME_1",
+      "value": "15"
+    },
+    {
+      "id": "TIME_2",
+      "value": "21"
+    },
+    {
+      "id": "TIME_3",
+      "value": "20"
+    },
+    {
+      "id": "TIME_4",
+      "value": "25"
+    },
+    {
+      "id": "TIME_5",
+      "value": "37"
     }
   ]
 }

@@ -55,12 +55,32 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 <body>
 	<div class="wrap">
-		<video id="back" class= "bg" src="public/cube.webm" type="video/webm" autoplay loop muted playsinline></video>
+		<!--<video id="videoElement" class= "bg"></video>  -->
+
+		<!-- <video id="back" class= "bg" type="video/webm" autoplay loop muted playsinline></video> -->
 		<!-- <video id="back" class= "bg" src="public/cube.webm" type="video/webm" autoplay loop muted playsinline></video> -->
 		<iframe id="layer1" class= "layer" src="" frameborder="0" title="Layer 1"></iframe> 
 		<iframe id="layer2" class= "layer" src="" frameborder="0" title="Layer 2"></iframe> 
 	</div>
 </body>
+<!--
+<script src="mpegts.js"></script>
+
+<script>
+    if (mpegts.getFeatureList().mseLivePlayback) {
+        var videoElement = document.getElementById('videoElement');
+        var player = mpegts.createPlayer({
+            type: 'mpegts',  // could also be mpegts, m2ts, flv
+            isLive: true,
+            url: 'udp://@:4445?overrun_nonfatal=1&fifo_size=50000000'
+        });
+        player.attachMediaElement(videoElement);
+        player.load();
+        player.play();
+    }
+</script>
+-->
+
 
 <script>
 
@@ -118,4 +138,7 @@
 	});
 
 </script>
+
+
+
 </html>

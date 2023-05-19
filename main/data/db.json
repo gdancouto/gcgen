@@ -1,6 +1,6 @@
 {
   "info": {
-    "eventId": "0x00000012",
+    "eventId": 27,
     "date": 20221020,
     "time": 205010333
   },
@@ -16,29 +16,29 @@
     "src": "../../futebol/graphics/startlist.html",
     "injectCount": 1,
     "layer": 1,
-    "command": 2
+    "command": 1
   },
 
   "data": [
     {
       "id": "NAME_1",
-      "value": "सबहिं के विचार"
+      "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
     },
     {
       "id": "NAME_2",
-      "value": "Joaquina MARIA"
+      "value": ["Susana SCHNARNDORF", "スザナ・シナルンドルフ"]
     },
     {
       "id": "NAME_3",
-      "value": "国際連合と協力して"
+      "value": ["JIANG Yuyan", "蒋 裕燕"]
     },
     {
       "id": "NAME_4",
-      "value": "καιτα δικαιώματα"
+      "value": ["NAKAMURA Tomotaro", "中村 智太郎"]
     },
     {
       "id": "NAME_5",
-      "value": "タシタ・オリベイラ クルス"
+      "value": ["Jose Antonio MARI ALCARAZ", "ホセ アントニオ・マリ アルカラス"]
     },
     {
       "id": "TIME_1",
@@ -59,6 +59,27 @@
     {
       "id": "TIME_5",
       "value": "37"
+    },
+    {
+      "id": "FLAG_1",
+      "value": "AUS"
+    },
+    {
+      "id": "FLAG_2",
+      "value": "BRA"
+    },
+    {
+      "id": "FLAG_3",
+      "value": "CHN"
+    },
+    {
+      "id": "FLAG_4",
+      "value": "JPN"
+    },
+    {
+      "id": "FLAG_5",
+      "value": "ESP"
     }
+
   ]
 }
