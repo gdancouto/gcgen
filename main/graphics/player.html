@@ -55,9 +55,9 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 <body>
 	<div class="wrap">
-		<!--<video id="videoElement" class= "bg"></video>  -->
+		<!-- <video id="videoElement" class= "bg"></video> -->
 
-		<!-- <video id="back" class= "bg" type="video/webm" autoplay loop muted playsinline></video> -->
+		<video id="back" class= "bg" type="video/webm" autoplay loop muted playsinline></video>
 		<!-- <video id="back" class= "bg" src="public/cube.webm" type="video/webm" autoplay loop muted playsinline></video> -->
 		<iframe id="layer1" class= "layer" src="" frameborder="0" title="Layer 1"></iframe> 
 		<iframe id="layer2" class= "layer" src="" frameborder="0" title="Layer 2"></iframe> 
@@ -93,9 +93,23 @@
 		hls.attachMedia(video);
 	}
 
+
+/*
+	if (mpegts.getFeatureList().mseLivePlayback) {
+			var videoElement = document.getElementById('videoElement');
+			var player = mpegts.createPlayer({
+				type: 'mpegts',  // could also be mpegts, m2ts, flv
+				isLive: true,
+				url: 'udp://192.168.1.20:4445'
+			});
+			player.attachMediaElement(videoElement);
+			player.load();
+			player.play();
+		}
+*/
+
 	const visibility = nodecg.Replicant('visibility');
 	const layer = nodecg.Replicant('layer');
-
 	visibility.on('change', (newValue, oldValue) => {
 
 		//let atribute = newValue ? "visibility: visible" : "visibility: hidden";
