@@ -57,12 +57,17 @@
 	<div class="wrap">
 		<!-- <video id="videoElement" class= "bg"></video> -->
 
-		<video id="back" class= "bg" type="video/webm" autoplay loop muted playsinline></video>
+		<video id="backpp" class= "bg" src="http://127.0.0.1:8080" type="video/mp4" controls preload="none" autoplay muted playsinline></video>
+
+
+		<!-- <video id="back" class= "bg" type="video/webm" controls preload="none" autoplay muted playsinline></video> -->
+		
 		<!-- <video id="back" class= "bg" src="public/cube.webm" type="video/webm" autoplay loop muted playsinline></video> -->
 		<iframe id="layer1" class= "layer" src="" frameborder="0" title="Layer 1"></iframe> 
 		<iframe id="layer2" class= "layer" src="" frameborder="0" title="Layer 2"></iframe> 
 	</div>
 </body>
+
 <!--
 <script src="mpegts.js"></script>
 
@@ -85,7 +90,7 @@
 <script>
 
 	var video = document.getElementById('back');
- 	var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+ 	var videoSrc = 'public/browser.m3u8';
 
 	if (Hls.isSupported()) {
 		var hls = new Hls();

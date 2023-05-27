@@ -21,8 +21,20 @@
 
   "data": [
     {
-      "id": "NAME_1",
-      "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
+      "id": "PICTO",
+      "src": "public/pictos/ATH.png"
+    },
+    {
+      "id": "EVENT",
+      "value": ["Athletics", "マッケンジー???"]
+    },
+    {
+      "id": "PHASE",
+      "value": ["Startlist", "ゾエ・マッケンジー"]
+    },
+    {
+    "id": "NAME_1",
+    "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
     },
     {
       "id": "NAME_2",
@@ -62,23 +74,23 @@
     },
     {
       "id": "FLAG_1",
-      "value": "AUS"
+      "src": "public/flags/AUS.png"
     },
     {
       "id": "FLAG_2",
-      "value": "BRA"
+      "src": "public/flags/BRA.png"
     },
     {
       "id": "FLAG_3",
-      "value": "CHN"
+      "src": "public/flags/CHN.png"
     },
     {
       "id": "FLAG_4",
-      "value": "JPN"
+      "src": "public/flags/JPN.png"
     },
     {
       "id": "FLAG_5",
-      "value": "ESP"
+      "src": "public/flags/ESP.png"
     }
 
   ]

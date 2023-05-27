@@ -120,12 +120,13 @@ module.exports = nodecg => {
 
 	socketANC.on("message", function(msg, info) {
 		console.log('Got message from SPLICE');
+		
 
 		try {
 			let splice = JSON.parse(msg.toString());
 
 			let query = {"info.eventId": splice["event-id"]};
-
+			console.log(query);
 			format(query);
 
 		} catch (error) {
