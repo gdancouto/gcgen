@@ -3,8 +3,10 @@ var dgram = require("dgram");
 
 const fs = require('fs');
 // read file
+
 const config = { 
 	id: "PGM",
+	mode: "RX",
 	db: {
 		ip: "",
 		porta: "",
@@ -26,6 +28,19 @@ let state = {
 	newMessage:{},
 	messageBuffer: [],
 };
+
+	const exec = require('child_process').exec;
+
+	const spliceMonitor = exec('sh bundles/main/scripts/monitor.sh ');
+
+	spliceMonitor.stdout.on('data', (data)=>{ 
+		console.log(data); 
+
+	});
+
+	spliceMonitor.stderr.on('data', (data)=>{
+		console.error(data);
+	});
 
 module.exports = nodecg => {
 
