@@ -55,63 +55,34 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 <body>
 	<div class="wrap">
-		<!-- <video id="videoElement" class= "bg"></video> -->
 
-		<video id="backpp" class= "bg" src="http://127.0.0.1:8080" type="video/mp4" controls preload="none" autoplay muted playsinline></video>
-
-
-		<!-- <video id="back" class= "bg" type="video/webm" controls preload="none" autoplay muted playsinline></video> -->
+		<!-- <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->
+		<!--  <video id="backpp" class= "bg" src="http://127.0.0.1:8080" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->	
 		
-		<!-- <video id="back" class= "bg" src="public/cube.webm" type="video/webm" autoplay loop muted playsinline></video> -->
 		<iframe id="layer1" class= "layer" src="" frameborder="0" title="Layer 1"></iframe> 
 		<iframe id="layer2" class= "layer" src="" frameborder="0" title="Layer 2"></iframe> 
 	</div>
 </body>
 
-<!--
-<script src="mpegts.js"></script>
-
 <script>
-    if (mpegts.getFeatureList().mseLivePlayback) {
-        var videoElement = document.getElementById('videoElement');
-        var player = mpegts.createPlayer({
-            type: 'mpegts',  // could also be mpegts, m2ts, flv
-            isLive: true,
-            url: 'udp://@:4445?overrun_nonfatal=1&fifo_size=50000000'
-        });
-        player.attachMediaElement(videoElement);
-        player.load();
-        player.play();
-    }
-</script>
--->
 
-
-<script>
+var config = {
+  initialLiveManifestSize: 1,  /*!liveSyncDurationCount*/
+  maxBufferLength: 5,
+  backBufferLength: 0 /*!!!!!!*/
+};
 
 	var video = document.getElementById('back');
  	var videoSrc = 'public/browser.m3u8';
 
 	if (Hls.isSupported()) {
-		var hls = new Hls();
+		var hls = new Hls(config);
 		hls.loadSource(videoSrc);
 		hls.attachMedia(video);
 	}
 
 
-/*
-	if (mpegts.getFeatureList().mseLivePlayback) {
-			var videoElement = document.getElementById('videoElement');
-			var player = mpegts.createPlayer({
-				type: 'mpegts',  // could also be mpegts, m2ts, flv
-				isLive: true,
-				url: 'udp://192.168.1.20:4445'
-			});
-			player.attachMediaElement(videoElement);
-			player.load();
-			player.play();
-		}
-*/
+
 
 	const visibility = nodecg.Replicant('visibility');
 	const layer = nodecg.Replicant('layer');
