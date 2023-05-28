@@ -15,7 +15,7 @@
 tsp --realtime \
 -I ip 239.1.1.1:4445 \
 -P splicemonitor --json-udp 127.0.0.1:4444 \
--O ip 192.168.1.20:4445
+-O drop
 
 #-O fork "ffmpeg $GENOPTIONS -i $VIDSOURCE -y $AUDIO_OPTS $VIDEO_OPTS $OUTPUT_HLS $OUTPUT_FILE"
 
