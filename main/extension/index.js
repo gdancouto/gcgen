@@ -1,24 +1,37 @@
 const mongo = require("./mongo.js");
 var dgram = require("dgram"); 
-
 const fs = require('fs');
-// read file
+const exec = require('child_process').exec;
 
+// read file
 const config = { 
 	id: "PGM",
-	mode: "RX",
-	db: {
+	TXmode: true,
+	RXmode: true,
+
+	tx:{
+		fileInput: "bundles/main/streams/stream1.ts",
+		fileOutput: "bundles/main/streams/stream2.ts",
+		ipOutput: "239.1.1.1:4445",
+		ipSplice: "5555",
+		recording: false,
+	},
+
+	rx:{
+		ipInput1: "239.1.1.1:4445",
+		ipInput2: "239.1.1.2:4445",
+		ipRemote: "127.0.0.1:2222",
+		ipSplice: "4444",
+		ipPlayer: "127.0.0.1:7777",
+	},
+
+	db:{
 		ip: "",
 		porta: "",
 		user: "host",
 		pass: "LZgC86hvXW7f3ttU",
+		URI: "mongodb+srv://host:LZgC86hvXW7f3ttU@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority",
 	},
-	splice:{
-		ip: "127.0.0.1",
-		porta: "5555",
-		user: "",
-		pass: "",
-	}
 }
 
 let state = {
@@ -29,28 +42,87 @@ let state = {
 	messageBuffer: [],
 };
 
-	const exec = require('child_process').exec;
+//-------------------------------------------------------------------
+// IF GC OPERATING AS PRIMARY GENERATOR
+//-------------------------------------------------------------------
 
-	const spliceMonitor = exec('sh bundles/main/scripts/monitor.sh ');
+if (config.TXmode){
+
+	let command;
+
+	if (config.tx.recording)
+		command = 'sh bundles/main/scripts/injectorREC.sh ';
+
+	else
+		command = 'sh bundles/main/scripts/injector.sh ';
+
+	const spliceInjector = exec(
+		command + ' '
+		+ config.tx.fileInput + ' ' 
+		+ config.tx.fileOutput + ' '
+		+ config.tx.ipSplice + ' '
+		+ config.tx.ipOutput);
+
+
+	spliceInjector.stdout.on('data', (data)=>{ 
+		console.log(data); 
+	});
+	
+	spliceInjector.stderr.on('data', (data)=>{
+		console.error(data);
+	});
+
+	//const monitorPlayer = exec('sh bundles/main/scripts/player.sh ' + config.tx.ipOutput);
+
+	//monitorPlayer.stdout.on('data', (data)=>{ 
+	//	console.log(data); 
+	//});
+	
+	//monitorPlayer.stderr.on('data', (data)=>{
+	//	console.error(data);
+	//});
+}
+
+//-------------------------------------------------------------------
+// IF GC OPERATING AS REPLICA
+//-------------------------------------------------------------------
+
+if (config.RXmode){
+	console.log("Modo de recepcao");
+
+	const spliceMonitor = exec(
+		'sh bundles/main/scripts/monitor.sh ' 
+		+ config.rx.ipInput1 + ' ' 
+		+ config.rx.ipInput2 + ' '
+		+ config.rx.ipRemote + ' '
+		+ config.rx.ipSplice + ' '
+		+ config.rx.ipPlayer);
 
 	spliceMonitor.stdout.on('data', (data)=>{ 
 		console.log(data); 
-
 	});
-
+	
 	spliceMonitor.stderr.on('data', (data)=>{
 		console.error(data);
 	});
+}
+
 
 module.exports = nodecg => {
 
 	let id = "PGM";
 	let language = 0; //permitir mudanca dinamica
+
 	const visibility = nodecg.Replicant('visibility');
 	const layer = nodecg.Replicant('layer');
+
 	let oldMessage = {};
 
 	dbGFX = new mongo(config.db.user, config.db.pass);
+
+
+
+
 
 	//-------------------------------------------------------------------
 	// RECEBE UM JSON DA GFX COMMANDS DATABASE
@@ -151,6 +223,40 @@ module.exports = nodecg => {
 	});
 
 	socketANC.bind(4444,'localhost'); 
+
+
+	//-------------------------------------------------------------------
+	// MAIN DASHBOARD CONTROL 
+	//--------------------------------------------------------------------
+
+	const prevReplicant = nodecg.Replicant('prev');
+	const nextReplicant = nodecg.Replicant('next');
+	prevReplicant.value = 0;
+
+	let text = config.rx.ipRemote;
+	const address = text.split(":");
+
+	const UDPsender = dgram.createSocket("udp4");
+
+	prevReplicant.on('change', (newValue, oldValue) => {
+
+		try {
+			UDPsender.send('prev', address[1], address[0]); 
+
+		} catch (error) {
+			nodecg.log.error(error);
+		}
+	});
+
+	nextReplicant.on('change', (newValue, oldValue) => {
+
+		try {
+			UDPsender.send('next', address[1], address[0]); 
+			
+		} catch (error) {
+			nodecg.log.error(error);
+		}
+	});
 
 
 }

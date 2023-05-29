@@ -1,3 +1,7 @@
 #!/bin/bash
 
-ffplay -probesize 32 -sync ext -fflags nobuffer udp://192.168.1.20:4445?overrun_nonfatal=1
+echo Exibindo feed $1
+
+ffplay -sync ext -fflags nobuffer udp://$1?overrun_nonfatal=1
+
+#aditional flags nad commands for window layout
