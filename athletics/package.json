@@ -1,22 +1,22 @@
 {
-  "name": "futebol",
+  "name": "athletics",
   "version": "1.0.0",
   "description": "",
-  "main": "futebol.html",
+  "main": "athletics.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Guilherme Couto",
   "license": "MIT",
 
   "nodecg": {
     "compatibleRange": ">=0.9",
     "dashboardPanels": [
       {
-        "name": "Futebol",
-        "title": "Futebol",
+        "name": "Atlhetics",
+        "title": "Athletics Graphics",
         "width": 3,
-        "file": "futebol.html",
+        "file": "athletics.html",
         "headerColor": "#9f9bbd"
       }
     ],

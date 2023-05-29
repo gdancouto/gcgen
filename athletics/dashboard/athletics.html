@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<!-- <label>Enter a name:</label> -->
+	<div>
+		<button id="startlistIN">STARTLIST IN</button>
+		<button id="startlistOUT">STARTLIST OUT</button>
+	</div>
+
+	<div>
+		<button id="PLACAR IN">PLACAR IN</button>
+		<button id="PLACAR OUT">PLACAR OUT</button>
+	</div>
+
+</body>
+
+<script>
+	const startlistInReplicant = nodecg.Replicant('ath/starlistIN');
+	const starlistOutReplicant = nodecg.Replicant('ath/starlistOUT');
+
+	const nameReplicant = nodecg.Replicant('name');
+
+	startlistIN.onclick = () => {
+		startlistInReplicant.value = !startlistInReplicant.value;
+	};
+
+	startlistOUT.onclick = () => {
+		starlistOutReplicant.value = !starlistOutReplicant.value;
+	};
+
+</script>
+</html>
