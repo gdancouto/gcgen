@@ -21,7 +21,7 @@ const config = {
 		ipInput1: "239.1.1.1:4445",
 		ipInput2: "239.1.1.2:4445",
 		ipRemote: "127.0.0.1:2222",
-		ipSplice: "4444",
+		ipSplice: "127.0.0.1:4444",
 		ipPlayer: "127.0.0.1:7777",
 	},
 
@@ -114,14 +114,11 @@ module.exports = nodecg => {
 	let language = 0; //permitir mudanca dinamica
 
 	const visibility = nodecg.Replicant('visibility');
-	const layer = nodecg.Replicant('layer');
+	//const layer = nodecg.Replicant('layer');
 
 	let oldMessage = {};
 
 	dbGFX = new mongo(config.db.user, config.db.pass);
-
-
-
 
 
 	//-------------------------------------------------------------------
@@ -175,10 +172,14 @@ module.exports = nodecg => {
 
 				visibility.value = message.output.on;
 
-				layer.value[message.template.layer] = message.template.src;
+				//console.log(message.template.src);
 
-				const dataReplicant = nodecg.Replicant(message.template.src);
+				//layer.value = message.template.src;
 
+				const layerReplicant = nodecg.Replicant((message.template.layer), { persistent: false });
+				layerReplicant.value = message.template.src;
+
+				const dataReplicant = nodecg.Replicant(message.template.src, { persistent: false });
 				dataReplicant.value = translate(message);
 			}
 		} 
