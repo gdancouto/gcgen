@@ -15,17 +15,13 @@
 </body>
 
 <script>
-	const startlistInReplicant = nodecg.Replicant('ath/starlistIN');
-	const starlistOutReplicant = nodecg.Replicant('ath/starlistOUT');
-
-	const nameReplicant = nodecg.Replicant('name');
 
 	startlistIN.onclick = () => {
-		startlistInReplicant.value = !startlistInReplicant.value;
+		nodecg.sendMessage('ath/stlist', 1);
 	};
 
 	startlistOUT.onclick = () => {
-		starlistOutReplicant.value = !starlistOutReplicant.value;
+		nodecg.sendMessage('ath/stlist', 2);
 	};
 
 </script>

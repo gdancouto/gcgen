@@ -34,6 +34,20 @@ const config = {
 	},
 }
 
+const messageToDatabase = { 
+	info:{
+		eventId: 0,
+		timestamp: 20230601,
+		injectCount:1,
+	},
+	output:{
+		id: "PGM",
+		on: true,
+	},
+	template:{},
+	data:{},
+}
+
 let state = {
 	visibility: true,
 	layers: [],
@@ -111,10 +125,11 @@ if (config.RXmode){
 module.exports = nodecg => {
 
 	let id = "PGM";
-	let language = 0; //permitir mudanca dinamica
 
 	const visibility = nodecg.Replicant('visibility');
-	//const layer = nodecg.Replicant('layer');
+
+	const idiom = nodecg.Replicant('language');
+	//Pending language treatment
 
 	let oldMessage = {};
 
@@ -126,6 +141,8 @@ module.exports = nodecg => {
 	//--------------------------------------------------------------------
 
 	function translate (message) {
+
+		let language = idiom.value;
 
 		message.data.forEach(element => {
 
@@ -256,6 +273,34 @@ module.exports = nodecg => {
 			
 		} catch (error) {
 			nodecg.log.error(error);
+		}
+	});
+
+	//-------------------------------------------------------------------
+	// INJECTOR CODE (DB and ANCI)
+	//--------------------------------------------------------------------
+
+	nodecg.listenFor('mainChannel', (newValue) => {
+
+		let messageToSend = messageToDatabase;
+
+		try {
+
+			messageToSend.info.eventId = 37;
+			messageToSend.info.timestamp = Date.now();
+			messageToSend.info.injectCount = 1;
+
+			messageToSend.template = newValue.template;
+			messageToSend.data = newValue.data;
+
+			//UDPsender.send('next', address[1], address[0]); 
+			
+		} catch (error) {
+			nodecg.log.error(error);
+		}
+
+		finally {
+			console.log(messageToSend);
 		}
 	});
 

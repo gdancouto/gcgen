@@ -11,7 +11,13 @@
 		<input id="dbHost" type="text" value="localhost:5050"></input>
 	</div>
 
--->
+--> <div>
+		<select id="idiomSelect">
+			<option value=0 selected>English</option>
+			<option value=1>Japanese</option>
+
+		</select>
+	</div>
 
 	<button id="prevButton">Previous stream</button>
 	<button id="nextButton">Next stream</button>
@@ -29,11 +35,13 @@
 	//led indicating mongoDB database
 
 	//combobox com idioma desejado
-
+	//keyer on/oFF
 	//slider controle de delay
 
 	const prevReplicant = nodecg.Replicant('prev');
 	const nextReplicant = nodecg.Replicant('next');
+
+	const idiom = nodecg.Replicant('language');
 
 	prevButton.onclick = () => {
 		prevReplicant.value = !prevReplicant.value;
@@ -43,5 +51,10 @@
 		nextReplicant.value = !nextReplicant.value;
 	};
 
+	idiomSelect.onchange = () => {
+		idiom.value = idiomSelect.value;
+	};
+
+	//Language input treatment should be moved to server side
 </script>
 </html>
