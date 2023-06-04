@@ -1,7 +1,5 @@
 const mongo = require("./mongo.js");
-//const dash = require("./dashboard.js");
 var dgram = require("dgram"); 
-const fs = require('fs');
 const exec = require('child_process').exec;
 
 // read file
@@ -44,7 +42,6 @@ const messageToDatabase = {
 
 let state = {
 	idiom: 0,
-	visibility: true,
 	layers: [],
 	oldMessage: {},
 	newMessage:{},
@@ -119,17 +116,7 @@ if (config.RXmode){
 
 module.exports = nodecg => {
 
-	let id = "PGM";
-
-	const visibility = nodecg.Replicant('visibility');
-
-	const idiom = nodecg.Replicant('language');
-	//Pending language treatment
-
-	//let oldMessage = {};
-
 	dbGFX = new mongo(config.db.user, config.db.pass);
-
 
 	//-------------------------------------------------------------------
 	// RECEBE UM JSON DA GFX COMMANDS DATABASE
@@ -137,7 +124,7 @@ module.exports = nodecg => {
 
 	function translate (message) {
 
-		let language = idiom.value;
+		let language = state.idiom;
 
 		message.data.forEach(element => {
 
@@ -145,8 +132,7 @@ module.exports = nodecg => {
 
 				let field = element[atribute];
 
-				if (Array.isArray(field))
-				{
+				if (Array.isArray(field)) {
 
 					if (field[language] !== undefined) {
 						element[atribute] = field[language];
@@ -163,11 +149,6 @@ module.exports = nodecg => {
 	}
 
 
-	function isDestination (message, id) {
-		return message.output.id == id;
-	}
-
-
 	async function format (query) {
 
 		const message = await dbGFX.find("db","got", query);
@@ -178,20 +159,15 @@ module.exports = nodecg => {
 
 		if (message != null)
 		{
-			if (isDestination(message, id) )
+			if (message.hasOwnProperty('output'))
+				nodecg.sendMessage('keyerChannel', message.output);
+
+			if (message.hasOwnProperty('template'))
 			{
-				//oldMessage = message;
-
-				visibility.value = message.output.on;
-
-				//console.log(message.template.src);
-
-				//layer.value = message.template.src;
-
-				const layerReplicant = nodecg.Replicant((message.template.layer), { persistent: false });
-				layerReplicant.value = message.template.src;
+				nodecg.sendMessage('templateChannel', message.template);
 
 				const dataReplicant = nodecg.Replicant(message.template.src, { persistent: false });
+				
 				dataReplicant.value = translate(message);
 			}
 		} 
@@ -256,17 +232,22 @@ module.exports = nodecg => {
 	});
 
 
+	nodecg.listenFor('languageChannel', (newValue) => {
+		state.idiom = newValue;
+	});
+
+
 	//-------------------------------------------------------------------
 	// INJECTOR CODE (DB and ANCI)
 	//--------------------------------------------------------------------
 
 	nodecg.listenFor('mainChannel', (newValue) => {
 
-		let messageToSend = messageToDatabase;
+		let messageToSend = Object.assign({}, messageToDatabase);
 
 		try {
 
-			messageToSend.info.eventId = 37;
+			messageToSend.info.eventId = Date.now();
 			messageToSend.info.timestamp = Date.now();
 			//messageToSend.info.injectCount = 1;
 

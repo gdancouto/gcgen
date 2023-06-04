@@ -2,6 +2,7 @@
 <html>
 <body>
 	<!-- <label>Enter a name:</label> -->
+	<!-- crawl -->
 	<div>
 		<button id="startlistIN">STARTLIST IN</button>
 		<button id="startlistOUT">STARTLIST OUT</button>
@@ -18,9 +19,8 @@
 
 	startlistIN.onclick = () => {
 
-		let messageToSend = message;
+		let messageToSend = Object.assign({}, message);
 
-		//messageToSend.template.src = "../../athletics/graphics/startlist.html";
 		messageToSend.template.command = 1;
 
 		nodecg.sendMessage('athleticsChannel', messageToSend);
@@ -28,9 +28,11 @@
 	};
 
 	startlistOUT.onclick = () => {
-		let messageToSend = message;
+
+		let messageToSend = Object.assign({}, message);
+
 		messageToSend.template.command = 2;
-		//nodecg.sendMessage('ath/stlist', 2);
+
 		nodecg.sendMessage('athleticsChannel', messageToSend);
 	};
 
@@ -40,7 +42,7 @@
 			documentType: "GAMES",
 			documentCode: "ATHLETICS",
 			src: "../../athletics/graphics/startlist.html",
-			layer: "PGM-1",
+			layer: 1,
 			command: 0,
 		},
 		data: [
@@ -57,8 +59,8 @@
 			"value": ["Startlist", "ゾエ・マッケンジー"]
 		},
 		{
-		"id": "NAME_1",
-		"value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
+			"id": "NAME_1",
+			"value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
 		},
 		{
 			"id": "NAME_2",
@@ -117,7 +119,7 @@
 			"src": "public/flags/ESP.png"
 		}
 		]
-}
+	}
 
 </script>
 </html>
