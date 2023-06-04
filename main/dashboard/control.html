@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<title>Graphics Control</title>
+	<meta http-equiv="content-type" content="text/html">
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="public/style.css">
+</head>
+
 <body>
 	<!--
 	<div>
@@ -22,39 +30,49 @@
 	<button id="prevButton">Previous stream</button>
 	<button id="nextButton">Next stream</button>
 
+	<label class="switch">
+		<input type="checkbox" id="keyerToggle" checked="true">
+		<span class="slider"></span>
+	  </label>
+	
+
 
 </body>
 
 <script>
-	//const prevButton = document.querySelector('#prevButton');
-	//const nextButton = document.querySelector('#nextButton');
-
 	//mostraR operando no modo .....
 	//informacao das databases usadas
 	//led indicating splice monitor
 	//led indicating mongoDB database
-
-	//combobox com idioma desejado
-	//keyer on/oFF
 	//slider controle de delay
-
-	const prevReplicant = nodecg.Replicant('prev');
-	const nextReplicant = nodecg.Replicant('next');
 
 	const idiom = nodecg.Replicant('language');
 
 	prevButton.onclick = () => {
-		prevReplicant.value = !prevReplicant.value;
+		nodecg.sendMessage('streamChannel', 'prev');
 	};
 
 	nextButton.onclick = () => {
-		nextReplicant.value = !nextReplicant.value;
+		nodecg.sendMessage('streamChannel', 'next');
 	};
 
 	idiomSelect.onchange = () => {
-		idiom.value = idiomSelect.value;
+		nodecg.sendMessage('languageChannel', idiomSelect.value);
+		//idiom.value = idiomSelect.value;
 	};
 
-	//Language input treatment should be moved to server side
+	keyerToggle.onchange = () => {
+
+		message.output.on = keyerToggle.checked;
+		nodecg.sendMessageToBundle('mainChannel', 'main', message);
+	};
+
+	const message = { 
+		output: {
+			id: "PGM",
+			on: true,
+		}
+	}
+
 </script>
 </html>

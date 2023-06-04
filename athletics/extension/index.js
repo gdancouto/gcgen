@@ -1,3 +1,4 @@
+/*
 const message = { 
 
 	template:{
@@ -83,17 +84,20 @@ const message = {
 	]
 }
 
+*/
+
+
 module.exports = nodecg => {
 	
-	nodecg.listenFor('ath/stlist', (newValue) => {
+	nodecg.listenFor('athleticsChannel', (newValue) => {
 
 		try {
-			let messageToSend = message;
+			//let messageToSend = message;
 
-			messageToSend.template.command = newValue;
+			//messageToSend.template.command = newValue;
 			//messageToSend.template.data = newValue.data; // data comes from HTML
 
-			nodecg.sendMessageToBundle('mainChannel', 'main', messageToSend);
+			nodecg.sendMessageToBundle('mainChannel', 'main', newValue);
 
 		} catch (error) {
 			nodecg.log.error(error);

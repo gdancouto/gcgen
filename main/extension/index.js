@@ -1,4 +1,5 @@
 const mongo = require("./mongo.js");
+//const dash = require("./dashboard.js");
 var dgram = require("dgram"); 
 const fs = require('fs');
 const exec = require('child_process').exec;
@@ -35,20 +36,14 @@ const config = {
 }
 
 const messageToDatabase = { 
-	info:{
-		eventId: 0,
-		timestamp: 20230601,
-		injectCount:1,
-	},
-	output:{
-		id: "PGM",
-		on: true,
-	},
+	info:{},
+	output:{},
 	template:{},
 	data:{},
 }
 
 let state = {
+	idiom: 0,
 	visibility: true,
 	layers: [],
 	oldMessage: {},
@@ -131,7 +126,7 @@ module.exports = nodecg => {
 	const idiom = nodecg.Replicant('language');
 	//Pending language treatment
 
-	let oldMessage = {};
+	//let oldMessage = {};
 
 	dbGFX = new mongo(config.db.user, config.db.pass);
 
@@ -185,7 +180,7 @@ module.exports = nodecg => {
 		{
 			if (isDestination(message, id) )
 			{
-				oldMessage = message;
+				//oldMessage = message;
 
 				visibility.value = message.output.on;
 
@@ -242,39 +237,24 @@ module.exports = nodecg => {
 
 	socketANC.bind(4444,'localhost'); 
 
-
 	//-------------------------------------------------------------------
 	// MAIN DASHBOARD CONTROL 
 	//--------------------------------------------------------------------
 
-	const prevReplicant = nodecg.Replicant('prev');
-	const nextReplicant = nodecg.Replicant('next');
-	prevReplicant.value = 0;
-
 	let text = config.rx.ipRemote;
 	const address = text.split(":");
-
 	const UDPsender = dgram.createSocket("udp4");
 
-	prevReplicant.on('change', (newValue, oldValue) => {
+	nodecg.listenFor('streamChannel', (newValue) => {
 
 		try {
-			UDPsender.send('prev', address[1], address[0]); 
+			UDPsender.send(newValue, address[1], address[0]); 
 
 		} catch (error) {
 			nodecg.log.error(error);
 		}
 	});
 
-	nextReplicant.on('change', (newValue, oldValue) => {
-
-		try {
-			UDPsender.send('next', address[1], address[0]); 
-			
-		} catch (error) {
-			nodecg.log.error(error);
-		}
-	});
 
 	//-------------------------------------------------------------------
 	// INJECTOR CODE (DB and ANCI)
@@ -288,10 +268,10 @@ module.exports = nodecg => {
 
 			messageToSend.info.eventId = 37;
 			messageToSend.info.timestamp = Date.now();
-			messageToSend.info.injectCount = 1;
+			//messageToSend.info.injectCount = 1;
 
-			messageToSend.template = newValue.template;
-			messageToSend.data = newValue.data;
+			for (let prop in newValue) 
+				messageToSend[prop] = newValue[prop];
 
 			//UDPsender.send('next', address[1], address[0]); 
 			
