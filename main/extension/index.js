@@ -2,43 +2,21 @@ const mongo = require("./mongo.js");
 var dgram = require("dgram"); 
 const exec = require('child_process').exec;
 
-// read file
-const config = { 
-	id: "PGM",
-	TXmode: true,
-	RXmode: true,
+// CHeck if missing files
 
-	tx:{
-		fileInput: "bundles/main/streams/stream1.ts",
-		fileOutput: "bundles/main/streams/stream2.ts",
-		ipOutput: "239.1.1.1:4445",
-		ipSplice: "5555",
-		recording: false,
-	},
+const config = require('../data/config.json');
 
-	rx:{
-		ipInput1: "239.1.1.1:4445",
-		ipInput2: "239.1.1.2:4445",
-		ipRemote: "127.0.0.1:2222",
-		ipSplice: "127.0.0.1:4444",
-		ipPlayer: "127.0.0.1:7777",
-	},
+//const messageToDatabase = require('../data/db.json');
+//const messageToInjector = require('../data/scte35.json');
 
-	db:{
-		ip: "",
-		porta: "",
-		user: "host",
-		pass: "LZgC86hvXW7f3ttU",
-		URI: "mongodb+srv://host:LZgC86hvXW7f3ttU@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority",
-	},
-}
-
-const messageToDatabase = { 
-	info:{},
-	output:{},
-	template:{},
-	data:{},
-}
+const messageToInjector = `<?xml version="1.0" encoding="UTF-8"?>
+<tsduck>
+  <splice_information_table protocol_version="0" pts_adjustment="0" tier="0x0FFF">
+    	<splice_insert splice_event_id="splice-id" splice_event_cancel="false"  out_of_network="true" splice_immediate="true"  unique_program_id="0x00" avail_num="0" avails_expected="0">
+    	</splice_insert>
+    <splice_avail_descriptor identifier="0x43554549" provider_avail_id="0x00000012"/>
+  </splice_information_table>
+</tsduck>`;
 
 let state = {
 	idiom: 0,
@@ -134,13 +112,11 @@ module.exports = nodecg => {
 
 				if (Array.isArray(field)) {
 
-					if (field[language] !== undefined) {
+					if (field[language] !== undefined) 
 						element[atribute] = field[language];
-					} 
 					
-					else {
+					else 
 						element[atribute] = field[0];
-					}
 				}
 			})
 		});
@@ -159,11 +135,11 @@ module.exports = nodecg => {
 
 		if (message != null)
 		{
-			if (message.hasOwnProperty('output'))
+			if (message['output'])
 				nodecg.sendMessage('keyerChannel', message.output);
 
-			if (message.hasOwnProperty('template'))
-			{
+			if (message['template']){
+				
 				nodecg.sendMessage('templateChannel', message.template);
 
 				const dataReplicant = nodecg.Replicant(message.template.src, { persistent: false });
@@ -174,10 +150,12 @@ module.exports = nodecg => {
 	}
 
 	//-------------------------------------------------------------------
-	// SOCKET RECEBE UM JSON DO SPLICE INJECTOR
+	// SOCKET RECEBE UM JSON DO SPLICE MONITOR
 	//--------------------------------------------------------------------
 
 	var socketANC = dgram.createSocket("udp4");
+
+	socketANC.bind(4444,'localhost'); 
 
 	socketANC.on("error", function (err) {
 		nodecg.log.error(err);
@@ -186,7 +164,7 @@ module.exports = nodecg => {
 
 	socketANC.on("listening", function () {
 		var address = socketANC.address();
-		//nodecg.log"server listening " + address.address + ":" + address.port()
+
 		console.log("Listening ANC RX:  " + address.address + ":" + address.port);
 	});
 
@@ -211,7 +189,7 @@ module.exports = nodecg => {
 
 	});
 
-	socketANC.bind(4444,'localhost'); 
+	
 
 	//-------------------------------------------------------------------
 	// MAIN DASHBOARD CONTROL 
@@ -241,29 +219,57 @@ module.exports = nodecg => {
 	// INJECTOR CODE (DB and ANCI)
 	//--------------------------------------------------------------------
 
+	async function insertDatabase (id, newValue) {
+
+		//let toSendDatabase = Object.assign({}, messageToDatabase);
+		let toSendDatabase = {
+			info: {
+			},
+		};
+
+		toSendDatabase.info.eventId = id;
+		toSendDatabase.info.timestamp = Date.now();
+		toSendDatabase.info.injectCount = 1;
+
+		for (let prop in newValue) 
+			toSendDatabase[prop] = newValue[prop];
+
+		const message = await dbGFX.insert("db","got", toSendDatabase);
+	}
+
+	function insertInjector(id) {
+
+		let toSendInjector = messageToInjector.slice();
+
+		let text = config.tx.ipSplice;
+		const address = text.split(":");
+		const spliceInjector = dgram.createSocket("udp4");
+
+		toSendInjector = toSendInjector.replace ("splice-id", id);
+		spliceInjector.send(toSendInjector, address[1], address[0]); 
+	}
+
 	nodecg.listenFor('mainChannel', (newValue) => {
 
-		let messageToSend = Object.assign({}, messageToDatabase);
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min) + min); 
+		}
+		  
 
 		try {
+			let id = getRandomInt (1, Math.pow(2,32)-2);
 
-			messageToSend.info.eventId = Date.now();
-			messageToSend.info.timestamp = Date.now();
-			//messageToSend.info.injectCount = 1;
+			insertDatabase(id, newValue);
+			insertInjector(id);
 
-			for (let prop in newValue) 
-				messageToSend[prop] = newValue[prop];
-
-			//UDPsender.send('next', address[1], address[0]); 
-			
 		} catch (error) {
 			nodecg.log.error(error);
 		}
 
 		finally {
-			console.log(messageToSend);
 		}
 	});
-
 
 }
