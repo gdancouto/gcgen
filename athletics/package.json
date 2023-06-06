@@ -2,7 +2,7 @@
   "name": "athletics",
   "version": "1.0.0",
   "description": "",
-  "main": "athletics.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,7 @@
         "title": "Athletics Graphics",
         "width": 3,
         "file": "athletics.html",
-        "headerColor": "#9f9bbd"
+        "headerColor": "#12383b"
       }
     ],
     "graphics": [
