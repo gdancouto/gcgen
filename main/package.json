@@ -18,6 +18,13 @@
         "width": 3,
         "file": "control.html",
         "headerColor": "#7d1313"
+      },
+      {
+        "name": "PGM",
+        "title": "Program",
+        "width": 10,
+        "file": "program.html",
+        "headerColor": "#7d1313"
       }
     ],
     "graphics": [

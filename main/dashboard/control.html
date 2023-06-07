@@ -18,29 +18,34 @@
 		<label>Data host:</label>
 		<input id="dbHost" type="text" value="localhost:5050"></input>
 	</div>
+	-->
 
---> <div>
+	 <div class="wrapper">
+		<div class="title">LANGUAGE</div>
 		<select id="idiomSelect">
 			<option value=0 selected>English</option>
 			<option value=1>Japanese</option>
-
 		</select>
 	</div>
 
-	<button id="prevButton">Previous stream</button>
-	<button id="nextButton">Next stream</button>
-
-	<label class="switch">
-		<input type="checkbox" id="keyerToggle" checked="true">
-		<span class="slider"></span>
-	</label>
-
-	<div class="slidecontainer">
-		<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+	<div class="wrapper">
+		<div class="title">VIDEO FEED</div>
+		<button class="button" id="prevButton">Previous</button>
+		<button class="button" id="nextButton">Next</button>
 	</div>
 	
+	<div class="wrapper">
+		<div class="title">KEYER</div>
+		<label class="switch">
+			<input type="checkbox" id="keyerToggle" checked="true">
+		</label>
+	</div>
 
+	<div class="wrapper">
+		<div class="title">DELAY ADJUSTMENT</div>
+		<input type="range" min="1" max="100" value="50" id="myRange">
 
+	</div>
 </body>
 
 <script>

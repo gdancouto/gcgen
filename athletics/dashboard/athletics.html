@@ -18,47 +18,15 @@
 		<button class="button" id="startlistOUT">OUT</button>
 	</div>
 
-
-	<div class="wrapper" id="startlist">
-		<div class="title">STARTLIST</div>
-		<button class="button" id="startlistIN">IN</button>
-		<button class="button" id="startlistOUT">OUT</button>
-	</div>
-
 	<div class="wrapper" id="placar">
 		<div class="title">PLACAR</div>
-		<button class="button" id="PLACAR IN">IN</button>
-		<button class="button" id="PLACAR OUT">OUT</button>
+		<button class="button" id="placarIN">IN</button>
+		<button class="button" id="placarOUT">OUT</button>
 	</div>
 
 </body>
 
 <script>
-
-	// STARTLIST SCRIPT ---------------------------------------------------
-
-	startlistIN.onclick = () => {
-
-		let messageToSend = Object.assign({}, startlistMessage);
-
-		messageToSend.template.channel = "PGM";
-		messageToSend.template.command = 1;
-
-		nodecg.sendMessageToBundle('mainChannel', 'main', messageToSend);
-	};
-
-	startlistOUT.onclick = () => {
-
-		let messageToSend = Object.assign({}, startlistMessage);
-
-		messageToSend.template.channel = "PGM";
-		messageToSend.template.command = 2;
-
-		nodecg.sendMessageToBundle('mainChannel', 'main', messageToSend);
-	};
-
-
-
 
 	function dataReceived (object){
 		object.classList.add ("blink");
@@ -68,6 +36,26 @@
 		},1000);
 	}
 
+	function sendMainChannel (channel, command, message)
+	{
+		let messageToSend = Object.assign({}, message);
+
+		messageToSend.template.channel = channel;
+		messageToSend.template.command = command;
+
+		nodecg.sendMessageToBundle('mainChannel', 'main', messageToSend);
+	}
+
+	// STARTLIST SCRIPT ---------------------------------------------------
+
+	startlistIN.onclick = () => {
+		sendMainChannel ("PGM", 1, startlistMessage);
+	};
+
+	startlistOUT.onclick = () => {
+		sendMainChannel ("PGM", 2, startlistMessage);
+	};
+	
 	const dataReplicant = nodecg.Replicant("../../athletics/graphics/startlist.html", 'main',  {persistent: false });
 
 	dataReplicant.on('change', (newValue, oldValue) => {
@@ -81,11 +69,7 @@
 			if (newValue.template.command == 2)
 				dataReceived (startlistOUT);
 		}
-
 	});
-
-
-	// STARTLIST SCRIPT ---------------------------------------------------
 
 	const startlistMessage = { 
 
@@ -173,6 +157,60 @@
 			"src": "public/flags/ESP.png"
 		}
 		]
+	}
+
+
+	// PLACAR SCRIPT ---------------------------------------------------
+
+	placarIN.onclick = () => {
+		sendMainChannel ("PGM", 1, placarMessage);
+	};
+
+	placarOUT.onclick = () => {
+		sendMainChannel ("PGM", 2, placarMessage);
+	};
+
+	const datasReplicant = nodecg.Replicant("../../athletics/graphics/placar.html", 'main',  {persistent: false });
+
+	datasReplicant.on('change', (newValue, oldValue) => {
+	
+	if (oldValue) {
+	//if (newValue.template.channel = "PGM") {
+
+		if (newValue.template.command == 1)
+			dataReceived (placarIN);
+
+		if (newValue.template.command == 2)
+			dataReceived (placarOUT);
+	}
+
+});
+
+	const placarMessage = { 
+
+	template:{
+		domain: "GAMES",
+		package: "athletics",
+		graphic: "placar",
+		src: "../../athletics/graphics/placar.html",
+		channel: "",
+		layer: 2,
+		command: 0,
+	},
+
+	data: [
+	{
+		"id": "PICTO",
+		"src": "public/pictos/ATH.png"
+	},
+	{
+		"id": "EVENT",
+		"value": ["Athletics", "マッケンジー???"]
+	},
+	{
+		"id": "PHASE",
+		"value": ["Startlist", "ゾエ・マッケンジー"]
+	}]
 	}
 
 </script>

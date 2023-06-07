@@ -23,13 +23,14 @@
   margin:4px;
   /*border: 1px solid red;*/
   display: flex;
+  background-color: #ebebeb;
 }
 
 .title {
   width: 50%;
   /*border: 1px solid red;*/
-  font-size: 1.4em;
-  font-family: "Noto Sans";
+ /* font-size: 1.2em; */
+  /*font-family: "Noto Sans"; */
   font-weight: 500;
   color: #12383b;
 }
