@@ -5,6 +5,7 @@ const exec = require('child_process').exec;
 // CHeck if missing files
 
 const config = require('../data/config.json');
+const database = require('../data/credentials.json');
 
 //const messageToDatabase = require('../data/db.json');
 //const messageToInjector = require('../data/scte35.json');
@@ -18,13 +19,13 @@ const messageToInjector = `<?xml version="1.0" encoding="UTF-8"?>
   </splice_information_table>
 </tsduck>`;
 
-let state = {
+/* let state = {
 	idiom: 0,
 	layers: [],
 	oldMessage: {},
 	newMessage:{},
 	messageBuffer: [],
-};
+}; */
 
 //-------------------------------------------------------------------
 // IF GC OPERATING AS PRIMARY GENERATOR
@@ -56,6 +57,8 @@ if (config.TXmode){
 		console.error(data);
 	});
 
+
+
 	const monitorPlayer = exec('sh bundles/main/scripts/player.sh ' + config.tx.ipOutput);
 
 	monitorPlayer.stdout.on('data', (data)=>{ 
@@ -72,13 +75,12 @@ if (config.TXmode){
 //-------------------------------------------------------------------
 
 if (config.RXmode){
-	console.log("Modo de recepcao");
 
 	const spliceMonitor = exec(
 		'sh bundles/main/scripts/monitor.sh ' 
 		+ config.rx.ipInput1 + ' ' 
 		+ config.rx.ipInput2 + ' '
-		+ config.rx.ipRemote + ' '
+		+ config.rx.ipSwitch + ' '
 		+ config.rx.ipSplice + ' '
 		+ config.rx.ipPlayer);
 
@@ -94,15 +96,13 @@ if (config.RXmode){
 
 module.exports = nodecg => {
 
-	dbGFX = new mongo(config.db.user, config.db.pass);
+	dbGFX = new mongo(database.user, database.pass);
 
 	//-------------------------------------------------------------------
 	// RECEBE UM JSON DA GFX COMMANDS DATABASE
 	//--------------------------------------------------------------------
 
 	function translate (message) {
-
-		let language = state.idiom;
 
 		message.data.forEach(element => {
 
@@ -112,8 +112,8 @@ module.exports = nodecg => {
 
 				if (Array.isArray(field)) {
 
-					if (field[language] !== undefined) 
-						element[atribute] = field[language];
+					if (field[idiom] !== undefined) 
+						element[atribute] = field[idiom];
 					
 					else 
 						element[atribute] = field[0];
@@ -127,9 +127,7 @@ module.exports = nodecg => {
 
 	async function format (query) {
 
-		const message = await dbGFX.find("db","got", query);
-
-		//console.log(message);
+		const message = await dbGFX.find(database.db, database.collection, query);
 
 		//inserir delay variavel aqui
 
@@ -150,37 +148,36 @@ module.exports = nodecg => {
 	}
 
 	//-------------------------------------------------------------------
-	// SOCKET RECEBE UM JSON DO SPLICE MONITOR
+	// SPLICE MONITOR SOCKET RECEIVER
 	//--------------------------------------------------------------------
+	
+	let spliceAddress = (config.rx.ipSplice).split(":");
+	var spliceMonitor = dgram.createSocket("udp4");
 
-	var socketANC = dgram.createSocket("udp4");
+	spliceMonitor.bind(spliceAddress[1], spliceAddress[0]); 
 
-	socketANC.bind(4444,'localhost'); 
-
-	socketANC.on("error", function (err) {
+	spliceMonitor.on("error", function (err) {
 		nodecg.log.error(err);
-		socketANC.close();
+		spliceMonitor.close();
 	});
 
-	socketANC.on("listening", function () {
-		var address = socketANC.address();
-
-		console.log("Listening ANC RX:  " + address.address + ":" + address.port);
+	spliceMonitor.on("listening", function () {
+		nodecg.log.info('Listening on splice monitor socket');
 	});
 
-	socketANC.on('close',function() {
-		console.log('socketANC is closed!');
+	spliceMonitor.on('close',function() {
+		nodecg.log.info('Splice monitor socket closed');
 	});
 
-	socketANC.on("message", function(msg, info) {
-		console.log('Got message from SPLICE');
+	spliceMonitor.on("message", function(msg, info) {
 		
-
 		try {
 			let splice = JSON.parse(msg.toString());
 
 			let query = {"info.eventId": splice["event-id"]};
-			console.log(query);
+
+			nodecg.log.info('Message received on splice monitor. Id:' + splice["event-id"]);
+			
 			format(query);
 
 		} catch (error) {
@@ -190,29 +187,35 @@ module.exports = nodecg => {
 	});
 
 	
-
 	//-------------------------------------------------------------------
 	// MAIN DASHBOARD CONTROL 
 	//--------------------------------------------------------------------
 
-	let text = config.rx.ipRemote;
-	const address = text.split(":");
-	const UDPsender = dgram.createSocket("udp4");
+	let switchAdress = (config.rx.ipSwitch).split(":");
+	const switchSocket = dgram.createSocket("udp4");
 
 	nodecg.listenFor('streamChannel', (newValue) => {
 
 		try {
-			UDPsender.send(newValue, address[1], address[0]); 
+			switchSocket.send(newValue, switchAdress[1], switchAdress[0]); 
 
 		} catch (error) {
 			nodecg.log.error(error);
 		}
 	});
 
+	//-------------------------------------------------------------------
+	// LANGUAGE CONTROL
+	//--------------------------------------------------------------------
+
+	let idiom;
 
 	nodecg.listenFor('languageChannel', (newValue) => {
-		state.idiom = newValue;
+		idiom = newValue;
 	});
+
+	//const idiom = nodecg.Replicant('languageChannel');
+	//idiom.value = translate(message);
 
 
 	//-------------------------------------------------------------------
@@ -234,19 +237,18 @@ module.exports = nodecg => {
 		for (let prop in newValue) 
 			toSendDatabase[prop] = newValue[prop];
 
-		const message = await dbGFX.insert("db","got", toSendDatabase);
+		const message = await dbGFX.insert(database.db, database.collection, toSendDatabase);
 	}
 
 	function insertInjector(id) {
 
 		let toSendInjector = messageToInjector.slice();
 
-		let text = config.tx.ipSplice;
-		const address = text.split(":");
+		const injectorAddress = config.tx.ipSplice.split(":");
 		const spliceInjector = dgram.createSocket("udp4");
 
 		toSendInjector = toSendInjector.replace ("splice-id", id);
-		spliceInjector.send(toSendInjector, address[1], address[0]); 
+		spliceInjector.send(toSendInjector, injectorAddress[1], injectorAddress[0]); 
 	}
 
 	nodecg.listenFor('mainChannel', (newValue) => {

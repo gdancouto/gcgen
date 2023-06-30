@@ -12,15 +12,8 @@
     "rx": {
       "ipInput1": "239.1.1.1:4445",
       "ipInput2": "239.1.1.2:4445",
-      "ipRemote": "127.0.0.1:2222",
+      "ipSwitch": "127.0.0.1:2222",
       "ipSplice": "127.0.0.1:4444",
       "ipPlayer": "127.0.0.1:7777"
-    },
-    "db": {
-      "ip": "",
-      "porta": "",
-      "user": "host",
-      "pass": "LZgC86hvXW7f3ttU",
-      "URI": "mongodb+srv://host:LZgC86hvXW7f3ttU@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority"
     }
   }

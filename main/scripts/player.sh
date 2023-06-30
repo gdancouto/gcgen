@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo Exibindo feed $1
+#echo Exibindo feed $1
 
-ffplay -sync ext -fflags nobuffer udp://$1?overrun_nonfatal=1
-
-#aditional flags nad commands for window layout
+ffplay -loglevel warning -sync ext -fflags nobuffer -window_title 'Clean Feed' udp://$1?overrun_nonfatal=1
