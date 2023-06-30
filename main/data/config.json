@@ -4,7 +4,7 @@
     "RXmode": true,
     "tx": {
       "fileInput": "bundles/main/streams/stream1.ts",
-      "fileOutput": "bundles/main/streams/stream2.ts",
+      "fileOutput": "bundles/main/streams/injected/stream1.ts",
       "ipOutput": "239.1.1.1:4445",
       "ipSplice": "127.0.0.1:5555",
       "recording": false

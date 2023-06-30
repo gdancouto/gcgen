@@ -35,7 +35,7 @@ if (config.TXmode){
 	let command;
 
 	if (config.tx.recording)
-		command = 'sh bundles/main/scripts/injectorREC.sh ';
+		command = 'sh bundles/main/scripts/injectorRec.sh ';
 
 	else
 		command = 'sh bundles/main/scripts/injector.sh ';
@@ -56,15 +56,15 @@ if (config.TXmode){
 		console.error(data);
 	});
 
-	//const monitorPlayer = exec('sh bundles/main/scripts/player.sh ' + config.tx.ipOutput);
+	const monitorPlayer = exec('sh bundles/main/scripts/player.sh ' + config.tx.ipOutput);
 
-	//monitorPlayer.stdout.on('data', (data)=>{ 
-	//	console.log(data); 
-	//});
+	monitorPlayer.stdout.on('data', (data)=>{ 
+		console.log(data); 
+	});
 	
-	//monitorPlayer.stderr.on('data', (data)=>{
-	//	console.error(data);
-	//});
+	monitorPlayer.stderr.on('data', (data)=>{
+		console.error(data);
+	});
 }
 
 //-------------------------------------------------------------------
@@ -216,7 +216,7 @@ module.exports = nodecg => {
 
 
 	//-------------------------------------------------------------------
-	// INJECTOR CODE (DB and ANCI)
+	// LISTEN MAIN CHANNEL AND INJECT (DB and ANCI)
 	//--------------------------------------------------------------------
 
 	async function insertDatabase (id, newValue) {
@@ -266,9 +266,6 @@ module.exports = nodecg => {
 
 		} catch (error) {
 			nodecg.log.error(error);
-		}
-
-		finally {
 		}
 	});
 
