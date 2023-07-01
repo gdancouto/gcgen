@@ -20,20 +20,29 @@
 	</div>
 	-->
 
-	 <div class="wrapper">
-		<div class="title">LANGUAGE</div>
-		<select id="idiomSelect">
-			<option value=0 selected>English</option>
-			<option value=1>Japanese</option>
-		</select>
-	</div>
 
 	<div class="wrapper">
 		<div class="title">VIDEO FEED</div>
 		<button class="button" id="prevButton">Previous</button>
 		<button class="button" id="nextButton">Next</button>
 	</div>
+
+
+	 <div class="wrapper">
+		<div class="title">LANGUAGE</div>
+		<select id="idiomSelect" disabled>
+			<option value=0 selected>English</option>
+			<option value=1>Japanese</option>
+		</select>
+	</div>
+
+	<div class="wrapper">
+		<div class="title">KEYER</div>
+		<button class="button" id="keyerOn">ON</button>
+		<button class="button" id="keyerOff">OFF</button>
+	</div>
 	
+	<!--
 	<div class="wrapper">
 		<div class="title">KEYER</div>
 		<label class="switch">
@@ -41,11 +50,14 @@
 		</label>
 	</div>
 
+
 	<div class="wrapper">
 		<div class="title">DELAY ADJUSTMENT</div>
 		<input type="range" min="1" max="100" value="50" id="myRange">
 
 	</div>
+		-->
+
 </body>
 
 <script>
@@ -75,6 +87,18 @@
 		message.output.on = keyerToggle.checked;
 		nodecg.sendMessageToBundle('mainChannel', 'main', message);
 	};
+
+/*
+	keyerOn.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'prev');
+		
+	};
+
+	keyerOff.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'next');
+	};
+	*/
+
 
 	const message = { 
 		output: {

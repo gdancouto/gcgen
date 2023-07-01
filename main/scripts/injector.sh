@@ -14,3 +14,4 @@ tsp --buffer-size-mb 5 --max-input-packets 7 --max-flushed-packets 7 --max-outpu
 
 #-P fork "ffplay -loglevel warning -sync ext -fflags nobuffer -window_title 'Clean Feed' -" \
 #-O ip $4
+# -P continuity --fix \
