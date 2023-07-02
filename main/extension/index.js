@@ -23,6 +23,13 @@ module.exports = nodecg => {
 	const srcDashboard = require("./source.js")(nodecg, config);
 	const ctrDashboard = require("./control.js")(nodecg, config);
 
+	state =
+	{
+		language: nodecg.Replicant('idiomChannel'),
+		keyer: {},
+		delay:{}
+	}
+
 	if (config.RXmode){
 	}
 
@@ -32,9 +39,7 @@ module.exports = nodecg => {
 		const spliceMonitor = require("./spliceMonitor.js") (nodecg, config, formater);
 
 		const spliceInjector = require("./spliceInjector.js") (nodecg, config);
-
-	//const idiom = nodecg.Replicant('languageChannel');
-	//idiom.value = translate(message);
+		
 
 	//-------------------------------------------------------------------
 	// RECEBE UM JSON DA GFX COMMANDS DATABASE
@@ -50,8 +55,8 @@ module.exports = nodecg => {
 
 				if (Array.isArray(field)) {
 
-					if (field[idiom] !== undefined) 
-						element[atribute] = field[idiom];
+					if (field[state.language.value] !== undefined) 
+						element[atribute] = field[state.language.value];
 					
 					else 
 						element[atribute] = field[0];
@@ -101,28 +106,12 @@ module.exports = nodecg => {
 		}
 	}
 
-
 	//-------------------------------------------------------------------
-	// DASHBOARD LANGUAGE CONTROL
-	//--------------------------------------------------------------------
-
-	let idiom;
-
-	nodecg.listenFor('languageChannel', (newValue) => {
-		idiom = newValue;
-	});
-
-	//const idiom = nodecg.Replicant('languageChannel');
-	//idiom.value = translate(message);
-
-
-	//-------------------------------------------------------------------
-	// MONITOR GUI AND INJECT (DB and ANCI)
+	// INJECT (DB and ANCI)
 	//--------------------------------------------------------------------
 
 	async function insertDatabase (id, newValue) {
 
-		//let toSendDatabase = Object.assign({}, messageToDatabase);
 		let toSendDatabase = {
 			info: {
 			},
@@ -147,6 +136,10 @@ module.exports = nodecg => {
 		spliceInjector.openSocket (toSendInjector);
 
 	}
+
+	//-------------------------------------------------------------------
+	// MONITOR GUI
+	//--------------------------------------------------------------------
 
 	nodecg.listenFor('mainChannel', (newValue) => {
 

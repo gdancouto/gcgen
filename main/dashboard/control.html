@@ -32,8 +32,6 @@
 		<button class="button" id="openMonitor">Open</button>
 	</div>
 
-
-
 	 <div class="wrapper">
 		<div class="title">LANGUAGE</div>
 		<select id="idiomSelect">
@@ -73,7 +71,7 @@
 	//led indicating mongoDB database
 	//slider controle de delay
 
-	const idiom = nodecg.Replicant('language');
+	const idiom = nodecg.Replicant('idiomChannel');
 
 	prevButton.onclick = () => {
 		nodecg.sendMessage('streamChannel', 'prev');
@@ -88,9 +86,14 @@
 	};
 
 	idiomSelect.onchange = () => {
-		nodecg.sendMessage('languageChannel', idiomSelect.value);
-		//idiom.value = idiomSelect.value;
+		idiom.value = idiomSelect.value;
 	};
+
+	idiom.on('change', (newValue, oldValue) => {
+
+		if (newValue != oldValue)
+			idiomSelect.value = idiom.value;
+	});
 
 	keyerToggle.onchange = () => {
 
@@ -98,8 +101,7 @@
 		nodecg.sendMessageToBundle('mainChannel', 'main', message);
 	};
 
-/*
-	keyerOn.onclick = () => {
+/*.eyerOn.onclick = () => {
 		nodecg.sendMessage('streamChannel', 'prev');
 		
 	};
