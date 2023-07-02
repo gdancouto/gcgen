@@ -1,8 +1,4 @@
 const mongo = require("./mongo.js");
-var dgram = require("dgram"); 
-const exec = require('child_process').exec;
-
-// CHeck if missing files
 
 const config = require('../data/config.json');
 const database = require('../data/credentials.json');
@@ -19,84 +15,26 @@ const messageToInjector = `<?xml version="1.0" encoding="UTF-8"?>
   </splice_information_table>
 </tsduck>`;
 
-/* let state = {
-	idiom: 0,
-	layers: [],
-	oldMessage: {},
-	newMessage:{},
-	messageBuffer: [],
-}; */
-
-//-------------------------------------------------------------------
-// IF GC OPERATING AS PRIMARY GENERATOR
-//-------------------------------------------------------------------
-
-if (config.TXmode){
-
-	let command;
-
-	if (config.tx.recording)
-		command = 'sh bundles/main/scripts/injectorRec.sh ';
-
-	else
-		command = 'sh bundles/main/scripts/injector.sh ';
-
-	const spliceInjector = exec(
-		command + ' '
-		+ config.tx.fileInput + ' ' 
-		+ config.tx.fileOutput + ' '
-		+ config.tx.ipSplice + ' '
-		+ config.tx.ipOutput);
-
-
-	spliceInjector.stdout.on('data', (data)=>{ 
-		console.log(data); 
-	});
-	
-	spliceInjector.stderr.on('data', (data)=>{
-		console.error(data);
-	});
-
-
-
-	const monitorPlayer = exec('sh bundles/main/scripts/player.sh ' + config.tx.ipOutput);
-
-	monitorPlayer.stdout.on('data', (data)=>{ 
-		console.log(data); 
-	});
-	
-	monitorPlayer.stderr.on('data', (data)=>{
-		console.error(data);
-	});
-}
-
-//-------------------------------------------------------------------
-// IF GC OPERATING AS REPLICA
-//-------------------------------------------------------------------
-
-if (config.RXmode){
-
-	const spliceMonitor = exec(
-		'sh bundles/main/scripts/monitor.sh ' 
-		+ config.rx.ipInput1 + ' ' 
-		+ config.rx.ipInput2 + ' '
-		+ config.rx.ipSwitch + ' '
-		+ config.rx.ipSplice + ' '
-		+ config.rx.ipPlayer);
-
-	spliceMonitor.stdout.on('data', (data)=>{ 
-		console.log(data); 
-	});
-	
-	spliceMonitor.stderr.on('data', (data)=>{
-		console.error(data);
-	});
-}
-
 
 module.exports = nodecg => {
 
-	dbGFX = new mongo(database.user, database.pass);
+	const dbGFX = new mongo(database.uri);
+
+	const srcDashboard = require("./source.js")(nodecg, config);
+	const ctrDashboard = require("./control.js")(nodecg, config);
+
+	if (config.RXmode){
+	}
+
+	if (config.TXmode){
+	}
+
+		const spliceMonitor = require("./spliceMonitor.js") (nodecg, config, formater);
+
+		const spliceInjector = require("./spliceInjector.js") (nodecg, config);
+
+	//const idiom = nodecg.Replicant('languageChannel');
+	//idiom.value = translate(message);
 
 	//-------------------------------------------------------------------
 	// RECEBE UM JSON DA GFX COMMANDS DATABASE
@@ -147,65 +85,25 @@ module.exports = nodecg => {
 		} 
 	}
 
-	//-------------------------------------------------------------------
-	// SPLICE MONITOR SOCKET RECEIVER
-	//--------------------------------------------------------------------
-	
-	let spliceAddress = (config.rx.ipSplice).split(":");
-	var spliceMonitor = dgram.createSocket("udp4");
-
-	spliceMonitor.bind(spliceAddress[1], spliceAddress[0]); 
-
-	spliceMonitor.on("error", function (err) {
-		nodecg.log.error(err);
-		spliceMonitor.close();
-	});
-
-	spliceMonitor.on("listening", function () {
-		nodecg.log.info('Listening on splice monitor socket');
-	});
-
-	spliceMonitor.on('close',function() {
-		nodecg.log.info('Splice monitor socket closed');
-	});
-
-	spliceMonitor.on("message", function(msg, info) {
-		
+	function formater (msg)
+	{
 		try {
 			let splice = JSON.parse(msg.toString());
 
 			let query = {"info.eventId": splice["event-id"]};
 
-			nodecg.log.info('Message received on splice monitor. Id:' + splice["event-id"]);
+			//nodecg.log.info('Message received on splice monitor. Id:' + splice["event-id"]);
 			
 			format(query);
 
 		} catch (error) {
 			nodecg.log.error(error);
 		}
+	}
 
-	});
-
-	
-	//-------------------------------------------------------------------
-	// MAIN DASHBOARD CONTROL 
-	//--------------------------------------------------------------------
-
-	let switchAdress = (config.rx.ipSwitch).split(":");
-	const switchSocket = dgram.createSocket("udp4");
-
-	nodecg.listenFor('streamChannel', (newValue) => {
-
-		try {
-			switchSocket.send(newValue, switchAdress[1], switchAdress[0]); 
-
-		} catch (error) {
-			nodecg.log.error(error);
-		}
-	});
 
 	//-------------------------------------------------------------------
-	// LANGUAGE CONTROL
+	// DASHBOARD LANGUAGE CONTROL
 	//--------------------------------------------------------------------
 
 	let idiom;
@@ -219,7 +117,7 @@ module.exports = nodecg => {
 
 
 	//-------------------------------------------------------------------
-	// LISTEN MAIN CHANNEL AND INJECT (DB and ANCI)
+	// MONITOR GUI AND INJECT (DB and ANCI)
 	//--------------------------------------------------------------------
 
 	async function insertDatabase (id, newValue) {
@@ -244,11 +142,10 @@ module.exports = nodecg => {
 
 		let toSendInjector = messageToInjector.slice();
 
-		const injectorAddress = config.tx.ipSplice.split(":");
-		const spliceInjector = dgram.createSocket("udp4");
-
 		toSendInjector = toSendInjector.replace ("splice-id", id);
-		spliceInjector.send(toSendInjector, injectorAddress[1], injectorAddress[0]); 
+
+		spliceInjector.openSocket (toSendInjector);
+
 	}
 
 	nodecg.listenFor('mainChannel', (newValue) => {

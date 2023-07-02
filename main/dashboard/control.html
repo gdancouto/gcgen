@@ -27,10 +27,16 @@
 		<button class="button" id="nextButton">Next</button>
 	</div>
 
+	<div class="wrapper">
+		<div class="title">CLEAN FEED MONITOR</div>
+		<button class="button" id="openMonitor">Open</button>
+	</div>
+
+
 
 	 <div class="wrapper">
 		<div class="title">LANGUAGE</div>
-		<select id="idiomSelect" disabled>
+		<select id="idiomSelect">
 			<option value=0 selected>English</option>
 			<option value=1>Japanese</option>
 		</select>
@@ -75,6 +81,10 @@
 
 	nextButton.onclick = () => {
 		nodecg.sendMessage('streamChannel', 'next');
+	};
+
+	openMonitor.onclick = () => {
+		nodecg.sendMessage('monitorChannel', '1');
 	};
 
 	idiomSelect.onchange = () => {
