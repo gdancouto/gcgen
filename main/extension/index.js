@@ -1,7 +1,5 @@
-const mongo = require("./mongo.js");
-
 const config = require('../data/config.json');
-const database = require('../data/credentials.json');
+const profile = require('../data/credentials.json');
 
 //const messageToDatabase = require('../data/db.json');
 //const messageToInjector = require('../data/scte35.json');
@@ -18,88 +16,39 @@ const messageToInjector = `<?xml version="1.0" encoding="UTF-8"?>
 
 module.exports = nodecg => {
 
-	const dbGFX = new mongo(database.uri);
+	const dbGFX = require ("./commandsDatabase.js")(nodecg, profile);
 
 	const srcDashboard = require("./source.js")(nodecg, config);
 	const ctrDashboard = require("./control.js")(nodecg, config);
 
+	const msgHandler = require("./messageHandler.js")(nodecg);
+
 	state =
 	{
 		language: nodecg.Replicant('idiomChannel'),
-		keyer: {},
+		keyer: nodecg.Replicant('testChannel'),
 		delay:{}
 	}
 
 	if (config.RXmode){
+
+		const spliceMonitor = require("./spliceMonitor.js") (nodecg, config, formater);
+
 	}
 
 	if (config.TXmode){
 	}
-
-		const spliceMonitor = require("./spliceMonitor.js") (nodecg, config, formater);
-
 		const spliceInjector = require("./spliceInjector.js") (nodecg, config);
-		
 
 	//-------------------------------------------------------------------
-	// RECEBE UM JSON DA GFX COMMANDS DATABASE
+	// RX - RECEBE UM JSON DA GFX COMMANDS DATABASE
 	//--------------------------------------------------------------------
 
-	function translate (message) {
-
-		message.data.forEach(element => {
-
-			Object.keys(element).forEach(function (atribute){
-
-				let field = element[atribute];
-
-				if (Array.isArray(field)) {
-
-					if (field[state.language.value] !== undefined) 
-						element[atribute] = field[state.language.value];
-					
-					else 
-						element[atribute] = field[0];
-				}
-			})
-		});
-
-		return message;
-	}
-
-
-	async function format (query) {
-
-		const message = await dbGFX.find(database.db, database.collection, query);
-
-		//inserir delay variavel aqui
-
-		if (message != null)
-		{
-			if (message['output'])
-				nodecg.sendMessage('keyerChannel', message.output);
-
-			if (message['template']){
-				
-				nodecg.sendMessage('templateChannel', message.template);
-
-				const dataReplicant = nodecg.Replicant(message.template.src, { persistent: false });
-				
-				dataReplicant.value = translate(message);
-			}
-		} 
-	}
-
-	function formater (msg)
+	async function formater (splice)
 	{
 		try {
-			let splice = JSON.parse(msg.toString());
 
-			let query = {"info.eventId": splice["event-id"]};
-
-			//nodecg.log.info('Message received on splice monitor. Id:' + splice["event-id"]);
-			
-			format(query);
+			const message = await dbGFX.find (splice, msgHandler.dispatch);
 
 		} catch (error) {
 			nodecg.log.error(error);
@@ -107,7 +56,7 @@ module.exports = nodecg => {
 	}
 
 	//-------------------------------------------------------------------
-	// INJECT (DB and ANCI)
+	// TX - INJECT (DB and ANCI)
 	//--------------------------------------------------------------------
 
 	async function insertDatabase (id, newValue) {
@@ -124,7 +73,7 @@ module.exports = nodecg => {
 		for (let prop in newValue) 
 			toSendDatabase[prop] = newValue[prop];
 
-		const message = await dbGFX.insert(database.db, database.collection, toSendDatabase);
+		const result = await dbGFX.insert(toSendDatabase);
 	}
 
 	function insertInjector(id) {
@@ -138,7 +87,7 @@ module.exports = nodecg => {
 	}
 
 	//-------------------------------------------------------------------
-	// MONITOR GUI
+	// TX - MONITOR GUI
 	//--------------------------------------------------------------------
 
 	nodecg.listenFor('mainChannel', (newValue) => {

@@ -1,9 +1,10 @@
 const dgram = require("dgram");
 const exec = require('child_process').exec;
 
-//-------------------------------------------------------------------
-// MONITOR MESSAGES FROM ANCI
-//--------------------------------------------------------------------
+/*-------------------------------------------------------------------
+MONITOR SPLICE FROM ANCILLARY SPACE AND
+CALLBACK FUNCTION WITH THE CONTENT (JSON)
+--------------------------------------------------------------------*/
 
 module.exports = (nodecg, config, callback) => {
 
@@ -58,13 +59,21 @@ module.exports = (nodecg, config, callback) => {
         });
 
         spliceMonitor.on("message", function(msg, info) {
-            nodecg.log.info('Message received on splice monitor');
-            callback (msg);
+            parseMessage (msg)
         });
     }
 
-    return {
-        openScript,
-        openSocket
+    function parseMessage (msg) 
+    {
+        try {
+			let splice = JSON.parse(msg.toString());
+
+			nodecg.log.info('Message received on splice monitor. ID:' + splice["event-id"]);
+
+            callback (splice);
+
+		} catch (error) {
+			nodecg.log.error(error);
+		}
     }
 }
