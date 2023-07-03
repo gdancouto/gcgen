@@ -59,21 +59,7 @@ module.exports = (nodecg, config, callback) => {
         });
 
         spliceMonitor.on("message", function(msg, info) {
-            parseMessage (msg)
+            callback (msg);
         });
-    }
-
-    function parseMessage (msg) 
-    {
-        try {
-			let splice = JSON.parse(msg.toString());
-
-			nodecg.log.info('Message received on splice monitor. ID:' + splice["event-id"]);
-
-            callback (splice);
-
-		} catch (error) {
-			nodecg.log.error(error);
-		}
     }
 }

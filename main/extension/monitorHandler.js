@@ -26,7 +26,7 @@ module.exports = (nodecg, config, profile) => {
     async function find (query){
 
         const message = await commandsDatabase.find (query, (message) => {
-
+            
             nodecg.sendMessage('ancillaryChannel', message);
 
         });
