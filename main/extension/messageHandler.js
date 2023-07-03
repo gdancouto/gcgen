@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------
-RECEIVE MESSAGES, EITHER FROM COMMANDS DATABASE OR INTERFACE
+RECEIVE FORMATED MESSAGES, EITHER FROM COMMANDS DATABASE OR INTERFACE
 PROCESS AND SEND TO CORRESPONDING TEMPLATE CHANNEL
 --------------------------------------------------------------------*/
 

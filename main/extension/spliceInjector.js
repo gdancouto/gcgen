@@ -2,7 +2,7 @@ const dgram = require("dgram");
 const exec = require('child_process').exec;
 
 //-------------------------------------------------------------------
-// INJECTS MESSAGES IN THE ANCI
+// INJECTS XML FORMATED MESSAGES IN THE ANCILLARY STREAM
 //--------------------------------------------------------------------
 
 module.exports = (nodecg, config) => {
@@ -43,7 +43,7 @@ module.exports = (nodecg, config) => {
 
     }
 
-    function openSocket (message){
+    function insert (message){
 
         try {
 
@@ -59,6 +59,6 @@ module.exports = (nodecg, config) => {
     }
 
     return {
-        openSocket
+        insert
     }
 }

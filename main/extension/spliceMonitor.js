@@ -2,8 +2,8 @@ const dgram = require("dgram");
 const exec = require('child_process').exec;
 
 /*-------------------------------------------------------------------
-MONITOR SPLICE FROM ANCILLARY SPACE AND
-CALLBACK FUNCTION WITH THE CONTENT (JSON)
+MONITOR SPLICE IN ANCILLARY STREAM AND
+CALLBACK FUNCTION WITH THE RAW CONTENT
 --------------------------------------------------------------------*/
 
 module.exports = (nodecg, config, callback) => {
