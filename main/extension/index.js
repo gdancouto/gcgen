@@ -16,26 +16,25 @@ module.exports = nodecg => {
 		delay:{}
 	}
 
-	if (config.RXmode){
-
-	}
-	const monitorHandler = require("./monitorHandler.js") (nodecg, config, profile);
 
 	if (config.TXmode){
+
+		const injectorHandler = require("./injectorHandler.js") (nodecg, config, profile);
+
+		nodecg.listenFor('mainChannel', (newValue) => {
+			injectorHandler.insert (newValue);
+
+			if (!config.RXmode)
+				messageHandler.dispatch (newValue);
+		});
+	};
+
+	if (config.RXmode){
+		
+		const monitorHandler = require("./monitorHandler.js") (nodecg, config, profile);
+
+		nodecg.listenFor('ancillaryChannel', (newValue) => {
+			messageHandler.dispatch (newValue);
+		});
 	}
-	const injectorHandler = require("./injectorHandler.js") (nodecg, config, profile);
-
-
-	nodecg.listenFor('ancillaryChannel', (newValue) => {
-
-		messageHandler.dispatch (newValue);
-	});
-
-
-	nodecg.listenFor('mainChannel', (newValue) => {
-
-		injectorHandler.insert (newValue);
-
-	});
-
 }
