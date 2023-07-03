@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Placar</title>
+	<meta http-equiv="content-type" content="text/html">
+	<meta charset="utf-8">
+
+	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+	<link rel="stylesheet" href="public/placar.css">
+
+</head>
+<body>
+	<!--
+	Based on After Effects template by Amaksi
+	http://videohive.net/item/lower-thirds/10338608
+	https://codepen.io/mattchestnut/pen/dMrONe
+	-->
+	<main>
+		<!-- <div id="animation-4" class="animation"></div> -->
+		<div id="aanimation-4" class="animation">
+			<div class="color1 light mask back1">
+	  			<div id="NAME_1">Olympic Stadium Marselle </div>
+			</div>
+
+			<div class="color2 bold mask">
+				<div>Alamo</div>
+			</div>
+		</div>
+	</main>
+
+</body>
+
+<script>
+
+	const dataReplicant = nodecg.Replicant("../../futebol/graphics/placar.html", 'main');
+
+	dataReplicant.on('change', (newValue, oldValue) => {
+
+		newValue.data.forEach(function (element) {
+
+			Object.keys(element).forEach(function (atribute){
+				
+				if (atribute == 'id') {
+				}
+
+				else if (atribute == "value")
+					document.getElementById(element.id).innerHTML = element[atribute];
+
+				else
+					document.getElementById(element.id).setAttribute(atribute, element[atribute]);
+			});
+		});
+	});
+
+</script>
+</html>

@@ -1,0 +1,28 @@
+{
+   "tsduck":{
+      "splice_information_table":{
+         "atributes":{
+            "protocol_version":"0",
+            "pts_adjustment":"0",
+            "tier":"0x0FFF"
+         },
+         "splice_insert":{
+            "atributes":{
+               "splice_event_id":"98",
+               "splice_event_cancel":"false",
+               "out_of_network":"true",
+               "splice_immediate":"true",
+               "unique_program_id":"0x00",
+               "avail_num":"0",
+               "avails_expected":"0"
+            }
+         },
+         "splice_avail_descriptor":{
+            "atributes":{
+               "identifier":"0x43554549",
+               "provider_avail_id":"0x00000012"
+            }
+         }
+      }
+   }
+}

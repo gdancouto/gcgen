@@ -1,0 +1,19 @@
+{
+    "id": "PGM",
+    "TXmode": true,
+    "RXmode": true,
+    "tx": {
+      "fileInput": "bundles/main/streams/stream1.ts",
+      "fileOutput": "bundles/main/streams/injected/stream1.ts",
+      "ipOutput": "239.1.1.1:4445",
+      "ipSplice": "127.0.0.1:5555",
+      "recording": false
+    },
+    "rx": {
+      "ipInput1": "239.1.1.1:4445",
+      "ipInput2": "239.1.1.2:4455",
+      "ipSwitch": "127.0.0.1:2222",
+      "ipSplice": "127.0.0.1:4444",
+      "ipPlayer": "127.0.0.1:7777"
+    }
+  }

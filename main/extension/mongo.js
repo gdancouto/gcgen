@@ -2,10 +2,9 @@ const { MongoClient } = require("mongodb");
 
 module.exports = class myDB {
 	
-	constructor(_user, _pass) {
+	constructor(uri) {
 
-		this.uri = `mongodb+srv://${_user}:${_pass}@gcgen.kj6g3v6.mongodb.net/?retryWrites=true&w=majority`;
-		this.client = new MongoClient(this.uri);
+		this.client = new MongoClient(uri);
 	}
 
 	insert = async function (db, collection, doc) {

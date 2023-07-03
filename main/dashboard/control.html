@@ -1,26 +1,123 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<title>Graphics Control</title>
+	<meta http-equiv="content-type" content="text/html">
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="public/style.css">
+</head>
+
 <body>
+	<!--
 	<div>
 		<label>Splice host:</label>
-		<input id="spliceHost" type="text" value="localhost:4040"></input> <!-- config file. GET  API-->
+		<input id="spliceHost" type="text" value="localhost:4040"></input> 
 	</div>
 	<div>
 		<label>Data host:</label>
-		<input id="dbHost" type="text" value="localhost:5050"></input> <!-- config file. GET  API-->
+		<input id="dbHost" type="text" value="localhost:5050"></input>
 	</div>
+	-->
+
+
+	<div class="wrapper">
+		<div class="title">VIDEO FEED</div>
+		<button class="button" id="prevButton">Previous</button>
+		<button class="button" id="nextButton">Next</button>
+	</div>
+
+	<div class="wrapper">
+		<div class="title">CLEAN FEED MONITOR</div>
+		<button class="button" id="openMonitor">Open</button>
+	</div>
+
+	 <div class="wrapper">
+		<div class="title">LANGUAGE</div>
+		<select id="idiomSelect">
+			<option value=0 selected>English</option>
+			<option value=1>Japanese</option>
+		</select>
+	</div>
+
+	<div class="wrapper">
+		<div class="title">KEYER</div>
+		<button class="button" id="keyerOn">ON</button>
+		<button class="button" id="keyerOff">OFF</button>
+	</div>
+	
+	<!--
+	<div class="wrapper">
+		<div class="title">KEYER</div>
+		<label class="switch">
+			<input type="checkbox" id="keyerToggle" checked="true">
+		</label>
+	</div>
+
+
+	<div class="wrapper">
+		<div class="title">DELAY ADJUSTMENT</div>
+		<input type="range" min="1" max="100" value="50" id="myRange">
+
+	</div>
+		-->
+
 </body>
 
 <script>
-	const dataReplicant = nodecg.Replicant('data');
+	//mostraR operando no modo .....
+	//informacao das databases usadas
+	//led indicating splice monitor
+	//led indicating mongoDB database
+	//slider controle de delay
 
-	dataReplicant.on('change', (newValue, oldValue) => {
-		if (!newValue) {
-			return;
-		}
-		
-		// do something
-		console.log (newValue);
+	const idiom = nodecg.Replicant('idiomChannel');
+
+	prevButton.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'prev');
+	};
+
+	nextButton.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'next');
+	};
+
+	openMonitor.onclick = () => {
+		nodecg.sendMessage('monitorChannel', '1');
+	};
+
+	idiomSelect.onchange = () => {
+		idiom.value = idiomSelect.value;
+	};
+
+	idiom.on('change', (newValue, oldValue) => {
+
+		if (newValue != oldValue)
+			idiomSelect.value = idiom.value;
 	});
+
+	keyerToggle.onchange = () => {
+
+		message.output.on = keyerToggle.checked;
+		nodecg.sendMessageToBundle('mainChannel', 'main', message);
+	};
+
+/*.eyerOn.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'prev');
+		
+	};
+
+	keyerOff.onclick = () => {
+		nodecg.sendMessage('streamChannel', 'next');
+	};
+	*/
+
+
+	const message = { 
+		output: {
+			id: "PGM",
+			on: true,
+		}
+	}
+
 </script>
 </html>

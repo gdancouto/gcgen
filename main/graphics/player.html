@@ -52,83 +52,70 @@
 
 	</style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
-<body>
-	<div class="wrap">
 
+<body>
+	<div id="wrapper" class="wrap">
 		<!-- <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->
-		<!--  <video id="backpp" class= "bg" src="http://127.0.0.1:8080" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->	
 		
-		<iframe id="layer1" class= "layer" src="" frameborder="0" title="Layer 1"></iframe> 
-		<iframe id="layer2" class= "layer" src="" frameborder="0" title="Layer 2"></iframe> 
+		<!-- <iframe id="layer1" class= "layer" style = "z-index: 1;" frameborder="0" title="Layer 1"></iframe> 
+			 <iframe id="layer2" class= "layer" style = "z-index: 2;" frameborder="0" title="Layer 2"></iframe> -->
 	</div>
 </body>
 
 <script>
 
-var config = {
-  initialLiveManifestSize: 1,  /*!liveSyncDurationCount*/
-  maxBufferLength: 5,
-  backBufferLength: 0 /*!!!!!!*/
-};
+	var absolutePath = function (href) {
+		let link = document.createElement("a");
+		link.href = href;
 
-	var video = document.getElementById('back');
- 	var videoSrc = 'public/browser.m3u8';
-
-	if (Hls.isSupported()) {
-		var hls = new Hls(config);
-		hls.loadSource(videoSrc);
-		hls.attachMedia(video);
+		let src = link.href;
+		link.remove();
+		return src;
 	}
 
+	nodecg.listenFor('templateChannel', (template) => {
 
+		let id = template.layer;
+		let src = absolutePath (template.src);
 
+		const layer = document.getElementById("layer" + id);
 
-	const visibility = nodecg.Replicant('visibility');
-	const layer = nodecg.Replicant('layer');
-	visibility.on('change', (newValue, oldValue) => {
-
-		//let atribute = newValue ? "visibility: visible" : "visibility: hidden";
-
-		if (newValue)
+		if (layer == null)
 		{
-			layer1.classList.remove("fadeOut");
-			layer2.classList.remove("fadeOut");
+			let iframe = document.createElement('iframe');
 
-			layer1.classList.add("fadeIn");
-			layer2.classList.add("fadeIn");
+			iframe.id = "layer" + id;
+			iframe.classList.add("layer");
+			iframe.src = src;
+			iframe.title = "layer" + id;
+			iframe.frameBorder = 0;
+			iframe.style = "z-index: " + id;
+
+			wrapper.appendChild(iframe);
 		}
 
-		else
+		else if (src != layer.src)
+			layer.src = src;
+
+	})
+
+	nodecg.listenFor('keyerChannel', (output) => {
+
+		const layers = document.getElementsByClassName("layer");
+
+		for (let layer of layers)
 		{
-			layer1.classList.remove("fadeIn");
-			layer2.classList.remove("fadeIn");
+			if (output.on) {
+				layer.classList.remove("fadeOut");
+				layer.classList.add("fadeIn");
+			}
 
-			layer1.classList.add("fadeOut");
-			layer2.classList.add("fadeOut");
+			else {
+				layer.classList.remove("fadeIn");
+				layer.classList.add("fadeOut");
+			}
 		}
-
-		
-    //activeIFrame.classList.add("fadeIn");
-
-		//document.getElementById("layer1").style = atribute;
-		//document.getElementById("layer2").style = atribute;
-
-	});
-
-	// generalizar numero de layers
-
-	layer.on('change', (newValue, oldValue) => {
-
-		if (newValue[1] != layer1.src)
-			layer1.src = newValue[1];
-
-		if (newValue[2] != layer2.src)
-			layer2.src = newValue[2];
 	});
 
 </script>
-
-
-
 </html>
