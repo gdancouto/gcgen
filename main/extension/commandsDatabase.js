@@ -15,11 +15,9 @@ module.exports = (nodecg, database) => {
         nodecg.log.error(error);
     }
 
-	async function find (splice, callback) {
+	async function find (query, callback) {
 
 		try {
-			let query = {"info.eventId": splice["event-id"]};
-
             const result = await dbGFX.find(database.db, database.collection, query);
 
 			checkMessage (result);

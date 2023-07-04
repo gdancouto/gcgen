@@ -1,6 +1,6 @@
 {
     "id": "PGM",
-    "TXmode": true,
+    "TXmode": false,
     "RXmode": true,
     "tx": {
       "fileInput": "bundles/main/streams/stream1.ts",

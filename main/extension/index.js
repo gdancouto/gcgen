@@ -1,14 +1,13 @@
 const config = require('../data/config.json');
 const profile = require('../data/credentials.json');
+const messageHandler = require('./messageHandler.js');
 
 module.exports = nodecg => {
-
-	const dbGFX = require ("./commandsDatabase.js")(nodecg, profile);
 
 	const srcDashboard = require("./source.js")(nodecg, config);
 	const ctrDashboard = require("./control.js")(nodecg, config);
 
-	const msgHandler = require("./messageHandler.js")(nodecg);
+	const messageHandler = require("./messageHandler.js")(nodecg);
 
 	state =
 	{
@@ -17,46 +16,25 @@ module.exports = nodecg => {
 		delay:{}
 	}
 
-	if (config.RXmode){
-
-		const spliceMonitor = require("./spliceMonitor.js") (nodecg, config, formater);
-
-	}
-
-	//const monitorHandler = require("./spliceMonitor.js") (nodecg, config, profile);
 
 	if (config.TXmode){
+
+		const injectorHandler = require("./injectorHandler.js") (nodecg, config, profile);
+
+		nodecg.listenFor('mainChannel', (newValue) => {
+			injectorHandler.insert (newValue);
+
+			if (!config.RXmode)
+				messageHandler.dispatch (newValue);
+		});
+	};
+
+	if (config.RXmode){
+		
+		const monitorHandler = require("./monitorHandler.js") (nodecg, config, profile);
+
+		nodecg.listenFor('ancillaryChannel', (newValue) => {
+			messageHandler.dispatch (newValue);
+		});
 	}
-	const injectorHandler = require("./injectorHandler.js") (nodecg, config, profile);
-
-
-	//-------------------------------------------------------------------
-	// RX - MONITOR ANCI MESSAGES
-	//--------------------------------------------------------------------
-	
-	async function formater (splice)
-	{
-		try {
-			const message = await dbGFX.find (splice, msgHandler.dispatch);
-
-		} catch (error) {
-			nodecg.log.error(error);
-		}
-	}
-	
-	//-------------------------------------------------------------------
-	// TX - MONITOR GUI MESSAGES
-	//--------------------------------------------------------------------
-
-	nodecg.listenFor('ancillaryChannel', (newValue) => {
-
-
-	});
-
-	nodecg.listenFor('mainChannel', (newValue) => {
-
-		injectorHandler.insert (newValue);
-
-	});
-
 }
