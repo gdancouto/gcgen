@@ -9,7 +9,7 @@ CALLBACK FUNCTION WITH THE RAW CONTENT
 module.exports = (nodecg, config, callback) => {
 
     try {
-        openScript();
+        //openScript();
         openSocket();
 
     } catch (error) {

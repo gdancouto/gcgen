@@ -8,7 +8,7 @@ const exec = require('child_process').exec;
 module.exports = (nodecg, config) => {
 
     try {
-        openScript();
+       // openScript();
 
     } catch (error) {
         nodecg.log.error(error);

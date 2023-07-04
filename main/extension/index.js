@@ -16,6 +16,8 @@ module.exports = nodecg => {
 		delay:{}
 	}
 
+	const configNew = require('../data/configNew.json');
+	const scriptCreator = require("./scriptCreator.js") (nodecg, configNew);
 
 	if (config.TXmode){
 
