@@ -6,15 +6,11 @@
 	<meta charset="utf-8">
 
 	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
-	<link rel="stylesheet" href="public/placar.css">
+	<link rel="stylesheet" href="css/placar.css">
+	<script src="js/front.js"></script>
 
 </head>
 <body>
-	<!--
-	Based on After Effects template by Amaksi
-	http://videohive.net/item/lower-thirds/10338608
-	https://codepen.io/mattchestnut/pen/dMrONe
-	-->
 	<main>
 		<!-- <div id="animation-4" class="animation"></div> -->
 		<div id="aanimation-4" class="animation">
@@ -31,26 +27,11 @@
 </body>
 
 <script>
+	
+	templateChannel ("../../futebol/graphics/placar.html");
+	console.log (window.location.pathname);
 
-	const dataReplicant = nodecg.Replicant("../../futebol/graphics/placar.html", 'main');
-
-	dataReplicant.on('change', (newValue, oldValue) => {
-
-		newValue.data.forEach(function (element) {
-
-			Object.keys(element).forEach(function (atribute){
-				
-				if (atribute == 'id') {
-				}
-
-				else if (atribute == "value")
-					document.getElementById(element.id).innerHTML = element[atribute];
-
-				else
-					document.getElementById(element.id).setAttribute(atribute, element[atribute]);
-			});
-		});
-	});
+	// To remove and put all inside JS
 
 </script>
 </html>

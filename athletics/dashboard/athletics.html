@@ -6,11 +6,10 @@
 		<meta charset="utf-8">
 
 		<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
-		<link rel="stylesheet" href="../../main/graphics/dashboard.css">
+		<link rel="stylesheet" href="css/dashboard.css">
+		
 	</head>
 <body>
-	<!-- <label>Enter a name:</label> -->
-	<!-- crawl -->
 
 	<div class="wrapper" id="startlist">
 		<div class="title">STARTLIST</div>
@@ -27,7 +26,6 @@
 </body>
 
 <script>
-
 	function dataReceived (object){
 		object.classList.add ("blink");
 
@@ -45,173 +43,9 @@
 
 		nodecg.sendMessageToBundle('mainChannel', 'main', messageToSend);
 	}
-
-	// STARTLIST SCRIPT ---------------------------------------------------
-
-	startlistIN.onclick = () => {
-		sendMainChannel ("PGM", 1, startlistMessage);
-	};
-
-	startlistOUT.onclick = () => {
-		sendMainChannel ("PGM", 2, startlistMessage);
-	};
-	
-	const dataReplicant = nodecg.Replicant("../../athletics/graphics/startlist.html", 'main',  {persistent: false });
-
-	dataReplicant.on('change', (newValue, oldValue) => {
-		
-		if (oldValue) {
-		//if (newValue.template.channel = "PGM") {
-
-			if (newValue.template.command == 1)
-				dataReceived (startlistIN);
-
-			if (newValue.template.command == 2)
-				dataReceived (startlistOUT);
-		}
-	});
-
-	const startlistMessage = { 
-
-		template:{
-			domain: "GAMES",
-			package: "athletics",
-			graphic: "startlist",
-			src: "../../athletics/graphics/startlist.html",
-			channel: "",
-			layer: 1,
-			command: 0,
-		},
-
-		data: [
-		{
-			"id": "PICTO",
-			"src": "public/pictos/ATH.png"
-		},
-		{
-			"id": "EVENT",
-			"value": ["Athletics", "マッケンジー???"]
-		},
-		{
-			"id": "PHASE",
-			"value": ["Startlist", "ゾエ・マッケンジー"]
-		},
-		{
-			"id": "NAME_1",
-			"value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
-		},
-		{
-			"id": "NAME_2",
-			"value": ["Susana SCHNARNDORF", "スザナ・シナルンドルフ"]
-		},
-		{
-			"id": "NAME_3",
-			"value": ["JIANG Yuyan", "蒋 裕燕"]
-		},
-		{
-			"id": "NAME_4",
-			"value": ["NAKAMURA Tomotaro", "中村 智太郎"]
-		},
-		{
-			"id": "NAME_5",
-			"value": ["Jose Antonio MARI ALCARAZ", "ホセ アントニオ・マリ アルカラス"]
-		},
-		{
-			"id": "TIME_1",
-			"value": "15"
-		},
-		{
-			"id": "TIME_2",
-			"value": "21"
-		},
-		{
-			"id": "TIME_3",
-			"value": "20"
-		},
-		{
-			"id": "TIME_4",
-			"value": "25"
-		},
-		{
-			"id": "TIME_5",
-			"value": "37"
-		},
-		{
-			"id": "FLAG_1",
-			"src": "public/flags/AUS.png"
-		},
-		{
-			"id": "FLAG_2",
-			"src": "public/flags/BRA.png"
-		},
-		{
-			"id": "FLAG_3",
-			"src": "public/flags/CHN.png"
-		},
-		{
-			"id": "FLAG_4",
-			"src": "public/flags/JPN.png"
-		},
-		{
-			"id": "FLAG_5",
-			"src": "public/flags/ESP.png"
-		}
-		]
-	}
-
-
-	// PLACAR SCRIPT ---------------------------------------------------
-
-	placarIN.onclick = () => {
-		sendMainChannel ("PGM", 1, placarMessage);
-	};
-
-	placarOUT.onclick = () => {
-		sendMainChannel ("PGM", 2, placarMessage);
-	};
-
-	const datasReplicant = nodecg.Replicant("../../athletics/graphics/placar.html", 'main',  {persistent: false });
-
-	datasReplicant.on('change', (newValue, oldValue) => {
-	
-	if (oldValue) {
-	//if (newValue.template.channel = "PGM") {
-
-		if (newValue.template.command == 1)
-			dataReceived (placarIN);
-
-		if (newValue.template.command == 2)
-			dataReceived (placarOUT);
-	}
-
-});
-
-	const placarMessage = { 
-
-	template:{
-		domain: "GAMES",
-		package: "athletics",
-		graphic: "placar",
-		src: "../../athletics/graphics/placar.html",
-		channel: "",
-		layer: 2,
-		command: 0,
-	},
-
-	data: [
-	{
-		"id": "PICTO",
-		"src": "public/pictos/ATH.png"
-	},
-	{
-		"id": "EVENT",
-		"value": ["Athletics", "マッケンジー???"]
-	},
-	{
-		"id": "PHASE",
-		"value": ["Startlist", "ゾエ・マッケンジー"]
-	}]
-	}
-
 </script>
+
+<script src="js/startlist.js"></script>
+<script src="js/placar.js"></script>
+
 </html>
