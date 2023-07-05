@@ -2,41 +2,6 @@ const exec = require('child_process').exec;
 
 module.exports = (nodecg, config) => {
 /*
-    const config = {
-        "id": "PGM",
-
-        "tx": {
-        "mode": true,
-        "ipInjector": "127.0.0.1:5555"
-        },
-
-        "rx": {
-        "mode": true,
-        "ipMonitor": "127.0.0.1:4444"
-        },
-
-        "inputs":{
-        "ipSwitch":"127.0.0.1:2222",
-        "paths":[
-            {
-            "type": "file",
-            "path": "bundles/main/streams/stream1.ts"
-            },
-            {
-            "type": "ip",
-            "path": "239.1.1.1:4445",
-            "source": "192.168.1.10"
-            }
-        ]
-        },
-
-        "output":{
-            "ipPlayer": "127.0.0.1:7777",
-            "recording": false,
-            "fileOutput": "bundles/main/streams/injected/stream1.ts"
-        }
-    }
-
     const valendo = 
     tsswitch --remote 127.0.0.1:2222 --fast-switch --buffer-packets 14 --max-input-packets 7 --max-output-packets 7 --verbose 
     -I ip 239.1.1.1:4445 --source 192.168.1.10 
@@ -88,6 +53,7 @@ module.exports = (nodecg, config) => {
             script += `${generateInputs()}`;
             script += `-O fork "tsp --verbose --realtime ${generateSpliceManipulators()}`;
             script += `${generateOutputFile()} -O ip ${config.output.ipPlayer}"`;
+            //script += `${generateOutputFile()} -O hls --duration 1 --live 1 --playlist bundles/main/graphics/public/teste.m3u8 bundles/main/graphics/public/teste.ts"`;
 
         }
         catch (error){
@@ -144,7 +110,7 @@ module.exports = (nodecg, config) => {
         let argument = ``;
 
         if (config.output.recording)
-            argument = `-P fork 'tsp -O file ${config.output.fileOutput}'`;
+            argument = `-P file ${config.output.fileOutput}`;
 
         return argument;
     }

@@ -73,6 +73,16 @@
 
 	const idiom = nodecg.Replicant('idiomChannel');
 
+	function dataReceived (object){
+
+		console.log ("recebi mensangem");
+		object.classList.add ("blink");
+
+		setTimeout (function (){
+			object.classList.remove ("blink");
+		},1000);
+	}
+
 	prevButton.onclick = () => {
 		nodecg.sendMessage('streamChannel', 'prev');
 	};
@@ -95,21 +105,25 @@
 			idiomSelect.value = idiom.value;
 	});
 
-	keyerToggle.onchange = () => {
-
-		message.output.on = keyerToggle.checked;
-		nodecg.sendMessageToBundle('mainChannel', 'main', message);
-	};
-
-/*.eyerOn.onclick = () => {
-		nodecg.sendMessage('streamChannel', 'prev');
+	keyerOn.onclick = () => {
+		message.output.on = true;
+		nodecg.sendMessage('mainChannel', message);
 		
 	};
 
 	keyerOff.onclick = () => {
-		nodecg.sendMessage('streamChannel', 'next');
+		message.output.on = false;
+		nodecg.sendMessage('mainChannel',  message);
 	};
-	*/
+	
+	nodecg.listenFor('keyerChannel', (newValue) => {
+
+		if (newValue.on)
+				dataReceived (keyerOn);
+
+		else
+				dataReceived (keyerOff);
+	});
 
 
 	const message = { 

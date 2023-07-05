@@ -1,13 +1,11 @@
-const config = require('../data/config.json');
-const profile = require('../data/credentials.json');
-const messageHandler = require('./messageHandler.js');
-
 module.exports = nodecg => {
 
-	const srcDashboard = require("./source.js")(nodecg, config);
-	const ctrDashboard = require("./control.js")(nodecg, config);
+	const config = require('../data/config.json');
+	const profile = require('../data/credentials.json');
 
+	const ctrDashboard = require("./controlDashboard.js")(nodecg, config);
 	const messageHandler = require("./messageHandler.js")(nodecg);
+	const scriptCreator = require("./scriptCreator.js") (nodecg, config);
 
 	state =
 	{
@@ -16,22 +14,21 @@ module.exports = nodecg => {
 		delay:{}
 	}
 
-	const configNew = require('../data/configNew.json');
-	const scriptCreator = require("./scriptCreator.js") (nodecg, configNew);
+	const dataReplicant = nodecg.Replicant('reloadChannel');
 
-	if (config.TXmode){
+	if (config.tx.mode){
 
 		const injectorHandler = require("./injectorHandler.js") (nodecg, config, profile);
 
 		nodecg.listenFor('mainChannel', (newValue) => {
 			injectorHandler.insert (newValue);
 
-			if (!config.RXmode)
+			if (!config.rx.mode)
 				messageHandler.dispatch (newValue);
 		});
 	};
 
-	if (config.RXmode){
+	if (config.rx.mode){
 		
 		const monitorHandler = require("./monitorHandler.js") (nodecg, config, profile);
 

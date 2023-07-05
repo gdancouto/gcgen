@@ -1,5 +1,4 @@
 const dgram = require("dgram");
-const exec = require('child_process').exec;
 
 /*-------------------------------------------------------------------
 MONITOR SPLICE IN ANCILLARY STREAM AND
@@ -9,37 +8,15 @@ CALLBACK FUNCTION WITH THE RAW CONTENT
 module.exports = (nodecg, config, callback) => {
 
     try {
-        //openScript();
         openSocket();
 
     } catch (error) {
         nodecg.log.error(error);
     }
-    
-    function openScript(){
-
-        const spliceScript = exec(
-            'sh bundles/main/scripts/monitor.sh ' 
-            + config.rx.ipInput1 + ' ' 
-            + config.rx.ipInput2 + ' '
-            + config.rx.ipSwitch + ' '
-            + config.rx.ipSplice + ' '
-            + config.rx.ipPlayer);
-
-
-        spliceScript.stdout.on('data', (data)=>{ 
-            nodecg.log.info(data); 
-        });
-        
-        spliceScript.stderr.on('data', (data)=>{
-            nodecg.log.info(data);
-        });
-
-    }
 
     function openSocket (){
 
-        let address = (config.rx.ipSplice).split(":");
+        let address = (config.rx.ipMonitor).split(":");
 
         const spliceMonitor = dgram.createSocket("udp4");
 

@@ -55,14 +55,37 @@
 
 <body>
 	<div id="wrapper" class="wrap">
-		<!-- <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->
-		
-		<!-- <iframe id="layer1" class= "layer" style = "z-index: 1;" frameborder="0" title="Layer 1"></iframe> 
-			 <iframe id="layer2" class= "layer" style = "z-index: 2;" frameborder="0" title="Layer 2"></iframe> -->
+	 <!-- <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video>  -->
+	 <!--     <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video>  -->
 	</div>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+
 <script>
+	/*
+	var video = document.getElementById('back');
+ 	//var videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+	var videoSrc = 'public/teste.m3u8';
+
+	if (Hls.isSupported()) {
+		var hls = new Hls();
+		hls.loadSource(videoSrc);
+		hls.attachMedia(video);
+	}
+	*/
+
+	/*
+	let hls = new Hls({backBufferLength:30, autoStartLoad:false, debug:true});
+                hls.loadSource(src);
+                hls.attachMedia(v);
+                v.addEventListener('play', () => hls.startLoad(), {once:true});
+	*/
+
+	/*var ctime = player.currentTime();
+	player.currentTime(0);
+	player.currentTime(ctime);
+	*/
 
 	var absolutePath = function (href) {
 		let link = document.createElement("a");
@@ -72,6 +95,15 @@
 		link.remove();
 		return src;
 	}
+
+	const dataReplicant = nodecg.Replicant('reloadChannel');
+
+	dataReplicant.on('change', (newValue, oldValue) => {
+		//set timeout of 1s
+		//console.log(newValue);
+		//location.reload(true);
+	});
+
 
 	nodecg.listenFor('templateChannel', (template) => {
 
