@@ -17,11 +17,11 @@ const venueMessage = {
     },
     {
         "id": "EVENT",
-        "value": ["Athletics", "マッケンジー???"]
+        "value": ["Olympic Stadium", "国立競技場"]
     },
     {
         "id": "PHASE",
-        "value": ["Startlist", "ゾエ・マッケンジー"]
+        "value": ["Athletics", "陸上"]
     }
     ]
 }

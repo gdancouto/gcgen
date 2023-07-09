@@ -17,11 +17,11 @@ const venueMessage = {
     },
     {
         "id": "EVENT",
-        "value": ["Athletics", "マッケンジー???"]
+        "value": ["Aquatics Centre", "アクアティクスセンター"]
     },
     {
         "id": "PHASE",
-        "value": ["Startlist", "ゾエ・マッケンジー"]
+        "value": ["Swimming", "競泳"]
     }
     ]
 }

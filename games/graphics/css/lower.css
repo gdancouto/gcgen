@@ -10,10 +10,11 @@ main {
   width: 1280px;
   height: 720px;
 
+  font-weight: 300;
   font-family: "Noto Sans";
   font-variant: small-caps;
   font-weight: 500;
-  font-size: 1.5em;
+  font-size: 1.4em;
   text-align: center;
 
 
@@ -22,7 +23,7 @@ main {
 }
 
 .wrapper {
-  margin-top: 30%;
+  margin-top: 25%;
   width: 50%;
   
   display: inline-block;
@@ -34,8 +35,8 @@ main {
   height: 35px;
 
   display: flex;
-  justify-content: center;  /* Left horizontally */
-  align-items: center;  /* Center vertically */
+  justify-content: center;  
+  align-items: center;
   margin:2px;
 }
 
@@ -68,7 +69,6 @@ main {
   color: rgba(235, 235, 235, 1);
   background-color: rgba(18, 56, 59, 1);
   z-index: 2;
-
 }
 
 .header {

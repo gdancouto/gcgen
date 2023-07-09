@@ -13,15 +13,15 @@ const athleteMessage = {
     data: [
     {
         "id": "NAME_1",
-        "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
+        "value": ["William BRANDT", "ウィリアム・ブラント"]
     },
     {
         "id": "TIME_1",
-        "value": "15"
+        "value": "34"
     },
     {
         "id": "FLAG_1",
-        "src": "flags/AUS.png"
+        "src": "flags/CAN.png"
     }
     ]
 }

@@ -17,31 +17,31 @@ const scheduleMessage = {
     },
     {
         "id": "EVENT",
-        "value": ["Athletics", "マッケンジー???"]
+        "value": ["Swimming", "競泳"]
     },
     {
         "id": "PHASE",
-        "value": ["Startlist", "ゾエ・マッケンジー"]
+        "value": ["Session Schedule", "セッションスケジュール"]
     },
     {
         "id": "NAME_1",
-        "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
+        "value": ["Men's 100m Butterfly", "男子100mバタフライ"]
     },
     {
         "id": "NAME_2",
-        "value": ["Susana SCHNARNDORF", "スザナ・シナルンドルフ"]
+        "value": ["Men's 100m Breaststroke", "男子100m平泳ぎ"]
     },
     {
         "id": "NAME_3",
-        "value": ["JIANG Yuyan", "蒋 裕燕"]
+        "value": ["Men's 100m Freestyle", "男子100m自由形"]
     },
     {
         "id": "NAME_4",
-        "value": ["NAKAMURA Tomotaro", "中村 智太郎"]
+        "value": ["Men's 200m Individual Medley", "男子200m 個人メドレ"]
     },
     {
         "id": "NAME_5",
-        "value": ["Jose Antonio MARI ALCARAZ", "ホセ アントニオ・マリ アルカラス"]
+        "value": ["Men's 50m Backstroke", "男子50m背泳ぎ"]
     }
     ]
 }

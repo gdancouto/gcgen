@@ -17,71 +17,95 @@ const startlistMessage = {
     },
     {
         "id": "EVENT",
-        "value": ["Athletics", "マッケンジー???"]
+        "value": ["Men's 100m Freestyle", "競泳ー男子100m自由形"]
     },
     {
         "id": "PHASE",
-        "value": ["Startlist", "ゾエ・マッケンジー"]
+        "value": ["Startlist", "スタートリスト"]
     },
     {
         "id": "NAME_1",
-        "value": ["Zoe MACKENZIE", "ゾエ・マッケンジー"]
+        "value": ["Daniel DE FARIA DIAS", "ペダニエル・ディアス"]
     },
     {
         "id": "NAME_2",
-        "value": ["Susana SCHNARNDORF", "スザナ・シナルンドルフ"]
+        "value": ["Antoni PONCE BERTRAN", "アントニー・ポンセ ベルトラン"]
     },
     {
         "id": "NAME_3",
-        "value": ["JIANG Yuyan", "蒋 裕燕"]
+        "value": ["Thanh Tung VO", "タン ツーン・ボー"]
     },
     {
         "id": "NAME_4",
-        "value": ["NAKAMURA Tomotaro", "中村 智太郎"]
+        "value": ["Sebastian RODRIGUEZ", "セバスティアン・ロドリゲス"]
     },
     {
         "id": "NAME_5",
-        "value": ["Jose Antonio MARI ALCARAZ", "ホセ アントニオ・マリ アルカラス"]
+        "value": ["Koral Berkin KUTLU", "コラル ベルキン・クトゥル"]
+    },
+    {
+        "id": "NAME_6",
+        "value": ["Francesco BOCCIARDO", "フランチェスコ・ボッチャルド"]
+    },
+    {
+        "id": "NAME_7",
+        "value": ["WANG Lichao", "王 李超"]
     },
     {
         "id": "TIME_1",
-        "value": "15"
+        "value": "35"
     },
     {
         "id": "TIME_2",
-        "value": "21"
+        "value": "36"
     },
     {
         "id": "TIME_3",
-        "value": "20"
-    },
-    {
-        "id": "TIME_4",
-        "value": "25"
-    },
-    {
-        "id": "TIME_5",
         "value": "37"
     },
     {
-        "id": "FLAG_1",
-        "src": "flags/AUS.png"
+        "id": "TIME_4",
+        "value": "66"
     },
     {
-        "id": "FLAG_2",
+        "id": "TIME_5",
+        "value": "17"
+    },
+    {
+        "id": "TIME_6",
+        "value": "29"
+    },
+    {
+        "id": "TIME_7",
+        "value": "29"
+    },
+    {
+        "id": "FLAG_1",
         "src": "flags/BRA.png"
     },
     {
+        "id": "FLAG_2",
+        "src": "flags/ESP.png"
+    },
+    {
         "id": "FLAG_3",
-        "src": "flags/CHN.png"
+        "src": "flags/VIE.png"
     },
     {
         "id": "FLAG_4",
-        "src": "flags/JPN.png"
+        "src": "flags/ESP.png"
     },
     {
         "id": "FLAG_5",
-        "src": "flags/ESP.png"
+        "src": "flags/TUR.png"
+    },
+    {
+        "id": "FLAG_6",
+        "src": "flags/ITA.png"
+    },
+    {
+        "id": "FLAG_7",
+        "src": "flags/CHN.png"
     }
     ]
 }
