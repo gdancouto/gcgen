@@ -18,6 +18,13 @@
         "width": 3,
         "file": "athletics.html",
         "headerColor": "#12383b"
+      },
+      {
+        "name": "swimming",
+        "title": "Swimming Graphics",
+        "width": 3,
+        "file": "swimming.html",
+        "headerColor": "#12383b"
       }
     ],
     "graphics": [
@@ -28,6 +35,21 @@
       },
       {
         "file": "placar.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "venueId.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "schedule.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "athlete.html",
         "width": 1280,
         "height": 720
       }

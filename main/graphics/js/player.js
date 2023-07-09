@@ -55,7 +55,6 @@
 			iframe.classList.add("layer");
 			iframe.src = src;
 			iframe.title = "layer" + id;
-			iframe.frameBorder = 0;
 			iframe.style = "z-index: " + id;
 
 			wrapper.appendChild(iframe);

@@ -10,9 +10,8 @@
 		<script src="js/generic.js"></script>
 		
 	</head>
-	
-<body>
 
+<body>
 	<div class="wrapper" id="venueId">
 		<div class="title">VENUE</div>
 		<button class="button" id="venueIN">IN</button>
@@ -25,36 +24,25 @@
 		<button class="button" id="startlistOUT">OUT</button>
 	</div>
 
-	<div class="wrapper">
-		<div class="title">ATHLETE ID</div>
-		<button class="button" id="athleteIN">IN</button>
-		<button class="button" id="athleteOUT">OUT</button>
-		<!-- <select id="athleteSelect" class="selector">
-		</select> -->
+	<div class="wrapper" id="schedule">
+		<div class="title">SCHEDULE</div>
+		<button class="button" id="scheduleIN">IN</button>
+		<button class="button" id="scheduleOUT">OUT</button>
 	</div>
 
-
-	<!--
-	<div class="wrapper" id="placar">
-		<div class="title">SCOREBOARD</div>
-		<button class="button" id="placarIN">IN</button>
-		<button class="button" id="placarOUT">OUT</button>
-	</div>
-	-->
 </body>
 
-<script src="data/athletics/venueId.js"></script>
-<script src="data/athletics/startlist.js"></script>
-<script src="data/athletics/athlete.js"></script>
+<script src="data/swimming/venueId.js"></script>
+<script src="data/swimming/startlist.js"></script>
+<script src="data/swimming/schedule.js"></script>
 
 <script>
 
-	const package = "athletics";
-
+	const package = "swimming";
+	
 	createChannel (package, "../../athletics/graphics/venueId.html", [venueIN, venueOUT], venueMessage);
 	createChannel (package, "../../athletics/graphics/startlist.html", [startlistIN, startlistOUT], startlistMessage);
-	createChannel (package, "../../athletics/graphics/athlete.html", [athleteIN, athleteOUT], athleteMessage);
+	createChannel (package, "../../athletics/graphics/schedule.html", [scheduleIN, scheduleOUT], scheduleMessage);
 
 </script>
-
 </html>
