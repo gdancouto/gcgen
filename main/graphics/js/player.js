@@ -31,15 +31,7 @@
 		return src;
 	}
 
-	const dataReplicant = nodecg.Replicant('reloadChannel');
-
-	dataReplicant.on('change', (newValue, oldValue) => {
-		//set timeout of 1s
-		//console.log(newValue);
-		//location.reload(true);
-	});
-
-
+	
 	nodecg.listenFor('templateChannel', (template) => {
 
 		let id = template.layer;
