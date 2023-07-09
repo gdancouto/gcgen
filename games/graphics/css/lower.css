@@ -18,16 +18,25 @@ main {
   text-align: center;
 
 
+  position: relative;
   background-color: rgba(75, 75, 0, 0);
-  border: 1px solid red;
 }
 
 .wrapper {
-  margin-top: 25%;
-  width: 50%;
-  
-  display: inline-block;
-  border: 1px solid red;
+  position: absolute;
+  bottom: 50px;
+
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.widescreen {
+  width: 55%;
+}
+
+.mobile {
+  width: 40%;
 }
 
 .veil {
@@ -131,13 +140,13 @@ main {
 
 #EVENT {
   color: rgba(235, 235, 235, 1);
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 #PHASE {
   color: rgba(235, 235, 235, 1);
   font-weight: regular;
-  font-size: 0.7em;
+  font-size: 0.8em;
   padding-left: 2em;
 }
 
@@ -148,7 +157,7 @@ main {
 
 
 .bkgr-0, .flag-0 .text-0, .numb-0 {
-  transform: translate3d(0, -105%, 0);
+  transform: translate3d(0, -115%, 0);
 }
 
 .sbg-0{
@@ -159,10 +168,10 @@ main {
 
 @keyframes bkgr-1 {
   0% {
-    transform: translate3d(0, -105%, 0);
+    transform: translate3d(0, -115%, 0);
   }
   30% {
-    transform: translate3d(0, -105%, 0);
+    transform: translate3d(0, -115%, 0);
   }
   60% {
     transform: translate3d(0, 0, 0);
@@ -241,10 +250,10 @@ main {
 
 @keyframes bkgr-2 {
   0% {
-    transform: translate3d(-105%, -105%, 0);
+    transform: translate3d(-115%, -115%, 0);
   }
   30% {
-    transform: translate3d(-105%, -105%, 0);
+    transform: translate3d(-115%, -115%, 0);
   }
   60% {
     transform: translate3d(0, 0, 0);
@@ -253,10 +262,10 @@ main {
 
 @keyframes text-2 {
   0% {
-    transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-130%, 0, 0);
   }
   50% {
-    transform: translate3d(-120%, 0, 0);
+    transform: translate3d(-130%, 0, 0);
   }
   80% {
     transform: translate3d(0, 0, 0);

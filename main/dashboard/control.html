@@ -41,6 +41,14 @@
 	</div>
 
 	<div class="wrapper">
+		<div class="title">FORMAT</div>
+		<select id="formatSelect" class="selector">
+			<option value=0 selected>Widescreen TV</option>
+			<option value=1>Portrait</option>
+		</select>
+	</div>
+
+	<div class="wrapper">
 		<div class="title">KEYER</div>
 		<button class="button" id="keyerOn">ON</button>
 		<button class="button" id="keyerOff">OFF</button>
@@ -53,29 +61,16 @@
 			<input type="checkbox" id="keyerToggle" checked="true">
 		</label>
 	</div>
-
-
-	<div class="wrapper">
-		<div class="title">DELAY ADJUSTMENT</div>
-		<input type="range" min="1" max="100" value="50" id="myRange">
-
-	</div>
 		-->
 
 </body>
 
 <script>
-	//mostraR operando no modo .....
-	//informacao das databases usadas
-	//led indicating splice monitor
-	//led indicating mongoDB database
-	//slider controle de delay
-
 	const idiom = nodecg.Replicant('idiomChannel');
+	const format = nodecg.Replicant('formatChannel');
 
 	function dataReceived (object){
 
-		console.log ("recebi mensangem");
 		object.classList.add ("blink");
 
 		setTimeout (function (){
@@ -103,6 +98,16 @@
 
 		if (newValue != oldValue)
 			idiomSelect.value = idiom.value;
+	});
+
+	formatSelect.onchange = () => {
+		format.value = formatSelect.value;
+	};
+
+	format.on('change', (newValue, oldValue) => {
+
+		if (newValue != oldValue)
+			formatSelect.value = format.value;
 	});
 
 	keyerOn.onclick = () => {

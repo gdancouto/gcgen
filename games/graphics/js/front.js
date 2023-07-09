@@ -1,4 +1,22 @@
 
+const formatReplicant = nodecg.Replicant("formatChannel", 'main');
+
+formatReplicant.on('change', (newValue, oldValue) => {
+
+    const container = document.getElementById("container");
+
+    if (newValue == 1) {
+        container.classList.remove("widescreen");
+        container.classList.add("mobile");
+    }
+        
+    if (newValue == 0){
+        container.classList.remove("mobile");
+        container.classList.add("widescreen");
+    }
+});
+
+
 const dataReplicant = nodecg.Replicant(window.location.pathname, 'main');
 
 const elems = document.body.getElementsByClassName("anim");

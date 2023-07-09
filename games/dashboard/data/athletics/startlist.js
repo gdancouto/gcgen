@@ -17,7 +17,7 @@ const startlistMessage = {
     },
     {
         "id": "EVENT",
-        "value": ["Athletics - Men's 100m", "陸上ー男子100m"]
+        "value": ["Men's 100m", "陸上ー男子100m"]
     },
     {
         "id": "PHASE",
@@ -25,7 +25,7 @@ const startlistMessage = {
     },
     {
         "id": "NAME_1",
-        "value": ["Petrucio FERREIRA DOS SANTOS", "ペトゥルシオ・フェレイラ ドス サントス"]
+        "value": ["Petrucio FERREIRA", "ペトゥルシオ・フェレイラ"]
     },
     {
         "id": "NAME_2",
