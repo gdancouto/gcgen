@@ -1,0 +1,29 @@
+{
+  "id": "PGM",
+
+  "tx": {
+    "mode": true,
+    "ipInjector": "127.0.0.1:5555"
+  },
+
+  "rx": {
+    "mode": true,
+    "ipMonitor": "127.0.0.1:4444"
+  },
+
+  "inputs":{
+    "ipSwitch":"127.0.0.1:2222",
+    "paths":[
+      {
+        "type": "file",
+        "path": "bundles/main/streams/stream2.ts"
+      }
+    ]
+  },
+
+  "output":{
+    "ipPlayer": "239.1.1.2:4455",
+    "recording": false,
+    "fileOutput": "bundles/main/streams/injected/stream2.ts"
+  }
+}
