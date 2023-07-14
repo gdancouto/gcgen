@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Graphics Control</title>
+	<title>Engine Control</title>
 	<meta http-equiv="content-type" content="text/html">
 	<meta charset="utf-8">
 
-	<link rel="stylesheet" href="public/style.css">
+	<link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
@@ -28,15 +28,23 @@
 	</div>
 
 	<div class="wrapper">
-		<div class="title">CLEAN FEED MONITOR</div>
+		<div class="title">FEED MONITOR</div>
 		<button class="button" id="openMonitor">Open</button>
 	</div>
 
 	 <div class="wrapper">
 		<div class="title">LANGUAGE</div>
-		<select id="idiomSelect">
+		<select id="idiomSelect" class="selector">
 			<option value=0 selected>English</option>
 			<option value=1>Japanese</option>
+		</select>
+	</div>
+
+	<div class="wrapper">
+		<div class="title">FORMAT</div>
+		<select id="formatSelect" class="selector">
+			<option value=0 selected>Widescreen TV</option>
+			<option value=1>Portrait</option>
 		</select>
 	</div>
 
@@ -53,25 +61,22 @@
 			<input type="checkbox" id="keyerToggle" checked="true">
 		</label>
 	</div>
-
-
-	<div class="wrapper">
-		<div class="title">DELAY ADJUSTMENT</div>
-		<input type="range" min="1" max="100" value="50" id="myRange">
-
-	</div>
 		-->
 
 </body>
 
 <script>
-	//mostraR operando no modo .....
-	//informacao das databases usadas
-	//led indicating splice monitor
-	//led indicating mongoDB database
-	//slider controle de delay
-
 	const idiom = nodecg.Replicant('idiomChannel');
+	const format = nodecg.Replicant('formatChannel');
+
+	function dataReceived (object){
+
+		object.classList.add ("blink");
+
+		setTimeout (function (){
+			object.classList.remove ("blink");
+		},1000);
+	}
 
 	prevButton.onclick = () => {
 		nodecg.sendMessage('streamChannel', 'prev');
@@ -95,23 +100,37 @@
 			idiomSelect.value = idiom.value;
 	});
 
-	keyerToggle.onchange = () => {
-
-		message.output.on = keyerToggle.checked;
-		nodecg.sendMessageToBundle('mainChannel', 'main', message);
+	formatSelect.onchange = () => {
+		format.value = formatSelect.value;
 	};
 
-/*.eyerOn.onclick = () => {
-		nodecg.sendMessage('streamChannel', 'prev');
+	format.on('change', (newValue, oldValue) => {
+
+		if (newValue != oldValue)
+			formatSelect.value = format.value;
+	});
+
+	keyerOn.onclick = () => {
+		message.output.on = true;
+		nodecg.sendMessage('mainChannel', message);
 		
 	};
 
 	keyerOff.onclick = () => {
-		nodecg.sendMessage('streamChannel', 'next');
+		message.output.on = false;
+		nodecg.sendMessage('mainChannel',  message);
 	};
-	*/
+	
+	nodecg.listenFor('keyerChannel', (newValue) => {
 
+		if (newValue.on)
+				dataReceived (keyerOn);
 
+		else
+				dataReceived (keyerOff);
+	});
+
+	// replace this logic to backend
 	const message = { 
 		output: {
 			id: "PGM",

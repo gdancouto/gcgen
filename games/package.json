@@ -1,0 +1,58 @@
+{
+  "name": "games",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guilherme Couto",
+  "license": "MIT",
+
+  "nodecg": {
+    "compatibleRange": ">=0.9",
+    "dashboardPanels": [
+      {
+        "name": "athletics",
+        "title": "Athletics Graphics",
+        "width": 3,
+        "file": "athletics.html",
+        "headerColor": "#12383b"
+      },
+      {
+        "name": "swimming",
+        "title": "Swimming Graphics",
+        "width": 3,
+        "file": "swimming.html",
+        "headerColor": "#12383b"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "startlist.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "placar.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "venueId.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "schedule.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "athlete.html",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

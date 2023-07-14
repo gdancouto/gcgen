@@ -1,0 +1,98 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,700);
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+main {
+  font-family: Open Sans;
+  text-transform: uppercase;
+  line-height: 1;
+
+  width: 1280;
+  height: 720;
+  position: absolute;
+  background-color: rgba(75, 75, 0, 0);
+  overflow: hidden;
+  border: 1px solid red;
+}
+
+.color1 {
+  color: #EBEBEB;
+}
+
+.color2 {
+  color: #0D5557;
+}
+
+.back1 {
+  background-color: #0D5557;
+}
+
+.back2 {
+  background-color: #cf4c4e;
+}
+
+.animation {
+  width: 60%;
+  height: 3em;
+  margin: 1em auto;
+  position: relative;
+  border: 1px solid red;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.mask {
+  overflow: hidden;
+  position: relative;
+}
+
+/*********************
+* Animation 4
+*********************/
+@keyframes animation-4-stroke {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  30% {
+    transform: translate3d(0, -100%, 0);
+  }
+  60% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes animation-4-text {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  50% {
+    transform: translate3d(0, -100%, 0);
+  }
+  80% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+#animation-4 > div {
+  display: inline-block;
+  vertical-align: middle;
+  animation: 1s ease-out alternate both;
+  animation-name: animation-4-stroke;
+}
+
+#animation-4 > div div {
+  font-size: 4em;
+  animation: 1s ease-out infinite alternate both;
+  -webkit-animation-iteration-count: 2;
+  animation-name: animation-4-text;
+}

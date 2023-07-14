@@ -1,3 +1,4 @@
 main/streams/injected/*
 main/streams/source/*
 main/streams/tmp/*
+main/data/credentials.json

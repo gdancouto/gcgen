@@ -10,7 +10,7 @@ do
         -tune zerolatency -movflags faststart+frag_keyframe+empty_moov \
         -y tmp.ts \
 
-    tsp --verbose --add-input-stuffing 1/10 \
+    tsp --verbose --add-input-stuffing 1/9 \
         -I file tmp.ts \
         -P pmt --service 1 --add-pid 600/0x86 \
         -O file $(pwd)/../streams/stream$i.ts

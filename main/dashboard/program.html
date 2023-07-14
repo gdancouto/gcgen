@@ -2,120 +2,13 @@
 <html>
 <head>
 	<title>Baseline graphics</title>
-	<style>
-		* {
-            margin: 0;
-            padding: 0;
-			overflow:hidden;
-            }
-            
-		.wrap {
-			position: relative;
-			width: 1280px;
-			height: 720px;
-
-			background-color: rgba(75, 75, 0, 0);
-			border: 1px solid red;
-		}
-			
-		.bg {
-			position: absolute;
-			height: 100%;
-			width: 100%;
-		}
-
-		.layer{
-			position: absolute;
-			height: 100%;
-			width: 100%;
-		}
-
-		@keyframes fadeIn {
-			0% { opacity: 0; }
-			100% { opacity: 1; }
-		}
-
-		@keyframes fadeOut {
-			0% { opacity: 1; }
-			100% { opacity: 0; }
-		}
-
-		.fadeIn {
-			animation: 500ms ease-out normal both;
-			animation-name: fadeIn;
-		}
-
-		.fadeOut {
-			animation: 500ms ease-out normal both;
-			animation-name: fadeOut;
-		}
-
-	</style>
+	<link rel="stylesheet" href="../graphics/css/player.css">
 </head>
 
 <body>
-	<div id="wrapper" class="wrap">
-		<!-- <video id="back" class= "bg" type="video/mp4" controls preload="none" autoplay muted playsinline></video> -->
-		
-		<!-- <iframe id="layer1" class= "layer" style = "z-index: 1;" frameborder="0" title="Layer 1"></iframe> 
-			 <iframe id="layer2" class= "layer" style = "z-index: 2;" frameborder="0" title="Layer 2"></iframe> -->
+	<div class="wrap" style="background-color: black;">
+		<iframe id="PGM" class="layer" src="../graphics/player.html" frameborder="0" title="PGM"></iframe> 
 	</div>
 </body>
 
-<script>
-
-	var absolutePath = function (href) {
-		let link = document.createElement("a");
-		link.href = href;
-
-		let src = link.href;
-		link.remove();
-		return src;
-	}
-
-	nodecg.listenFor('templateChannel', (template) => {
-
-		let id = template.layer;
-		let src = absolutePath (template.src);
-
-		const layer = document.getElementById("layer" + id);
-
-		if (layer == null)
-		{
-			let iframe = document.createElement('iframe');
-
-			iframe.id = "layer" + id;
-			iframe.classList.add("layer");
-			iframe.src = src;
-			iframe.title = "layer" + id;
-			iframe.frameBorder = 0;
-			iframe.style = "z-index: " + id;
-
-			wrapper.appendChild(iframe);
-		}
-
-		else if (src != layer.src)
-			layer.src = src;
-
-	})
-
-	nodecg.listenFor('keyerChannel', (output) => {
-
-		const layers = document.getElementsByClassName("layer");
-
-		for (let layer of layers)
-		{
-			if (output.on) {
-				layer.classList.remove("fadeOut");
-				layer.classList.add("fadeIn");
-			}
-
-			else {
-				layer.classList.remove("fadeIn");
-				layer.classList.add("fadeOut");
-			}
-		}
-	});
-
-</script>
 </html>

@@ -1,4 +1,4 @@
-const mongo = require("./mongo.js");
+const mongo = require("./mongoDatabase.js");
 
 /*-----------------.--------------------------------------------------
 CREATES INSTANCE OF COMMANDS DATABASE

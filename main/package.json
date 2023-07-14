@@ -14,7 +14,7 @@
     "dashboardPanels": [
       {
         "name": "Control",
-        "title": "Input Control",
+        "title": "Engine Control",
         "width": 3,
         "file": "control.html",
         "headerColor": "#7d1313"
