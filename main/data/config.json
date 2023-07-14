@@ -2,12 +2,12 @@
     "id": "PGM",
 
     "tx": {
-      "mode": true,
+      "mode": false,
       "ipInjector": "127.0.0.1:5555"
     },
 
     "rx": {
-      "mode": false,
+      "mode": true,
       "ipMonitor": "127.0.0.1:4444"
     },
 
