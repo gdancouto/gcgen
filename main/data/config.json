@@ -2,7 +2,7 @@
     "id": "PGM",
 
     "tx": {
-      "mode": false,
+      "mode": true,
       "ipInjector": "127.0.0.1:5555"
     },
 
@@ -15,14 +15,12 @@
       "ipSwitch":"127.0.0.1:2222",
       "paths":[
         {
-          "type": "ip",
-          "path": "239.1.1.1:4445",
-          "source": "192.168.1.10"
+          "type": "file",
+          "path": "bundles/main/streams/stream1.ts"
         },
         {
-          "type": "ip",
-          "path": "239.1.1.2:4455",
-          "source": "192.168.1.20"
+          "type": "file",
+          "path": "bundles/main/streams/stream2.ts"
         }
       ]
     },

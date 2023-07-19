@@ -28,8 +28,10 @@ module.exports = (nodecg) => {
 		}
     }
 
-    function translateFields (message) {
+    function translateFields (msg) {
 
+        let message = JSON.parse(JSON.stringify(msg))
+        
         message.data.forEach(element => {
 
             Object.keys(element).forEach(function (atribute){
